@@ -16,7 +16,7 @@ import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
 import com.ecommerce.enkabutikiw.repository.RoleRepository;
 import com.ecommerce.enkabutikiw.repository.UserRepository;
 import com.ecommerce.enkabutikiw.security.jwt.JwtUtils;
-import com.ecommerce.enkabutikiw.security.services.UserDetailsImpl;
+import com.ecommerce.enkabutikiw.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

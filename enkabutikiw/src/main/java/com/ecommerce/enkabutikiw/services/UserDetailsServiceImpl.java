@@ -1,4 +1,4 @@
-package com.ecommerce.enkabutikiw.security.services;
+package com.ecommerce.enkabutikiw.services;
 
 import com.ecommerce.enkabutikiw.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

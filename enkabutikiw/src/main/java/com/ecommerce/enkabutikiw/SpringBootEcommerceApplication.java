@@ -5,6 +5,7 @@ import com.ecommerce.enkabutikiw.models.Role;
 import com.ecommerce.enkabutikiw.models.User;
 import com.ecommerce.enkabutikiw.repository.RoleRepository;
 import com.ecommerce.enkabutikiw.repository.UserRepository;
+import com.ecommerce.enkabutikiw.services.EmailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -15,10 +16,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @SpringBootApplication
-public class SpringBootSecurityJwtApplication  implements  CommandLineRunner{
+public class SpringBootEcommerceApplication implements  CommandLineRunner{
 
 	public static void main(String[] args) {
-    SpringApplication.run(SpringBootSecurityJwtApplication.class, args);
+    SpringApplication.run(SpringBootEcommerceApplication.class, args);
 	}
 
 	@Autowired
@@ -26,6 +27,9 @@ public class SpringBootSecurityJwtApplication  implements  CommandLineRunner{
 
 	@Autowired
 	RoleRepository roleRepository;
+
+	@Autowired
+	EmailSenderService emailSenderService;
 
 	@Autowired
 	PasswordEncoder encoder;
@@ -58,6 +62,10 @@ public class SpringBootSecurityJwtApplication  implements  CommandLineRunner{
 			userRepository.save(user);
 
 		}
-
+		//envoie de l'email apres lancement du projet
+		emailSenderService.sendSimpleEmail("test@gmail.com","test","Bonjours");
+		System.out.println("Message envoyer !");
 	}
+
+
 }

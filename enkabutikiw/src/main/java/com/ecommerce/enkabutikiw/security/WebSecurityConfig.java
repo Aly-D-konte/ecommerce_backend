@@ -19,7 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.ecommerce.enkabutikiw.security.jwt.AuthEntryPointJwt;
 import com.ecommerce.enkabutikiw.security.jwt.AuthTokenFilter;
-import com.ecommerce.enkabutikiw.security.services.UserDetailsServiceImpl;
+import com.ecommerce.enkabutikiw.services.UserDetailsServiceImpl;
 
 @Configuration
 @EnableGlobalMethodSecurity(
