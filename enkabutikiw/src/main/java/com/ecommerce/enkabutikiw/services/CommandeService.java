@@ -9,6 +9,6 @@ public interface CommandeService {
 
     MessageResponse ajouteCommande(Commande commande);
     MessageResponse supprimerCommande(Long id);
-    MessageResponse ModifierCommande(Commande commande, Long id);
+    Commande ModifierCommande(Commande commande, Long id);
     List<Commande> liste();
 }

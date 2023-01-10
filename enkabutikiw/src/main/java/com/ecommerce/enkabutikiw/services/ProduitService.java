@@ -8,6 +8,6 @@ import java.util.List;
 public interface ProduitService {
     MessageResponse ajoutProduit(Produits produit);
     MessageResponse supprimerProduit(Long id);
-    MessageResponse ModifierProduit(Produits produit, Long id);
+    Produits ModifierProduit(Produits produit, Long id);
     List<Produits> liste();
 }

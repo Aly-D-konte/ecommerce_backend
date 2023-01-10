@@ -10,6 +10,6 @@ public interface CategorieService {
 
     MessageResponse ajoutCategorie(Categorie categorie);
     MessageResponse supprimerCategorie(Long id);
-    MessageResponse ModifierCategorie(Categorie categorie, Long id);
+    Categorie ModifierCategorie(Categorie categorie, Long id);
     List<Categorie> liste();
 }

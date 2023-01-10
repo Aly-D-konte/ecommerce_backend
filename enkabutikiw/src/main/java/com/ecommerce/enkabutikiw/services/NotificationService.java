@@ -10,6 +10,7 @@ public interface NotificationService {
     MessageResponse ajoutNotification(Notification notification);
     MessageResponse supprimerNotification(Long id);
     MessageResponse ModifierNotification(Notification notification, Long id);
+    Notification envoyerNotification(Long user_id, Notification notification);
     List<Notification> liste();
 }
 

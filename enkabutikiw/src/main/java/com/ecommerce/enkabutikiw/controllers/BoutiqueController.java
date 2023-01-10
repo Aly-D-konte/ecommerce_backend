@@ -1,7 +1,8 @@
 package com.ecommerce.enkabutikiw.controllers;
 
-import com.ecommerce.enkabutikiw.img.ConfigImage;
+import com.ecommerce.enkabutikiw.img.SaveImage;
 import com.ecommerce.enkabutikiw.models.Boutique;
+import com.ecommerce.enkabutikiw.models.User;
 import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
 import com.ecommerce.enkabutikiw.repository.BoutiqueRepository;
 import com.ecommerce.enkabutikiw.repository.UserRepository;
@@ -29,7 +30,7 @@ public class BoutiqueController {
     private BoutiqueRepository boutiqueRepository;
 
     @PostMapping("/ajouter")
-    public MessageResponse ajoutBoutique(@Param("nom") String nom, @Param("description") String description, @Param("adresse") String adresse,@Param("image") String image,@Param("type") boolean type, @Param("file") MultipartFile file) throws IOException {
+    public MessageResponse ajoutBoutique(@Param("nom") String nom, @Param("description") String description, @Param("adresse") String adresse, @Param("user_id") User user_id, @Param("image") String image, @Param("type") boolean type, @Param("file") MultipartFile file) throws IOException {
         Boutique boutique = new Boutique();
         String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
         boutique.setNom(nom);
@@ -37,12 +38,14 @@ public class BoutiqueController {
         boutique.setAdresse(adresse);
         boutique.setImage(nomfile);
         boutique.setType(type);
+        boutique.setUser(user_id);
         boutique.setUser(userRepository.findById(1L).get());
 
         if (boutiqueRepository.findByNom(nom) == null){
 
-            String uploaDir = "C:\\Users\\adkonte\\Documents\\ecommerce_backend\\enkabutikiw\\src\\test\\Images";
-           ConfigImage.saveimg(uploaDir, nomfile, file);
+//            String uploaDir = "C:\\Users\\adkonte\\Documents\\ecommerce_backend\\enkabutikiw\\src\\test\\Images";
+//           ConfigImage.saveimg(uploaDir, nomfile, file);
+            boutique.setImage(SaveImage.save(file,boutique.getImage()));
             return boutiqueService.ajoutBoutique(boutique);
 
         }else {
@@ -64,6 +67,11 @@ public class BoutiqueController {
     @PutMapping("/modifier/{id}")
     public Boutique modifierBoutique(@Param("boutique") Boutique boutique, @PathVariable Long id){
         return boutiqueService.ModifierBoutique(boutique, id);
+    }
+
+    @GetMapping("/supprimer/{id}")
+    public MessageResponse supprimerBoutique(@PathVariable Long id){
+        return boutiqueService.supprimerBoutique(id);
     }
 
 }

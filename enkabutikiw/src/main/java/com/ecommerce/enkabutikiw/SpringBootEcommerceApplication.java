@@ -38,33 +38,14 @@ public class SpringBootEcommerceApplication implements  CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 
-		Role role = new Role();
-		User user = new User();
-		role.setName(ERole.ROLE_ADMIN);
-		Set<Role> roles = new HashSet<>();
+		if (roleRepository.findAll().size() == 0) {
+			roleRepository.createRole();
 
-		roles.add(role);
-		if (userRepository.findAll().size() == 0) {
-
-			user.setEmail("alykonte@gmail.com");
-			user.setRoles(roles);
-			user.setUsername("aly");
-//
-//			user.setEmail("adama@gmail.com");
-//			user.setRoles(roles);
-//			user.setUsername("adama");
-
-			user.setPassword(encoder.encode("aly@123"));
-			//	user.setPassword(encoder.encode("adama@123"));
-
-
-			roleRepository.save(role);
-			userRepository.save(user);
 
 		}
 		//envoie de l'email apres lancement du projet
-		emailSenderService.sendSimpleEmail("test@gmail.com","test","Bonjours");
-		System.out.println("Message envoyer !");
+		//emailSenderService.sendSimpleEmail("coulibalyadamabekaye03@gmail.com","test","Bonjours");
+		//System.out.println("Message envoyer !");
 	}
 
 

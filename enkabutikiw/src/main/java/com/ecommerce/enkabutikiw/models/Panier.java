@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -19,6 +21,9 @@ public class Panier {
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer nombreproduit;
+
+    @ManyToMany
+    private List<Produits> produitsList = new ArrayList<>();
 
 
 }
