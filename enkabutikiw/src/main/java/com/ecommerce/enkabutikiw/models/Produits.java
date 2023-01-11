@@ -34,8 +34,6 @@ public class Produits {
     private User user;
 
     @ManyToOne
-    private Commande commande;
+    Boutique boutique;
 
-    @ManyToOne
-    private Panier panier;
 }

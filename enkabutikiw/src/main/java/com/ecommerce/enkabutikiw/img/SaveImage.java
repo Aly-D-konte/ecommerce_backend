@@ -12,7 +12,7 @@ public class SaveImage {
     public static String localhost = "http://127.0.0.1/";
     public static String serveruser = localhost + "Images/";
 
-    public static String Userlocation = "C:/xampp/htdocs/Images";
+    public static String Userlocation = "C:/xampp/htdocs/Images/";
 
     public static String save(MultipartFile file, String nomFichier) {
         String src = "";
@@ -25,7 +25,18 @@ public class SaveImage {
 
         /// debut de l'enregistrement
         try {
-            int index = Objects.requireNonNull(file.getOriginalFilename()).lastIndexOf(".");
+            Path chemin = Paths.get(location + nomFichier);
+
+            if (!Files.exists(chemin)) {
+                Files.createDirectories(chemin);
+                Files.copy(file.getInputStream(), chemin);
+                src = server + nomFichier;
+            } else {
+                Files.delete(chemin);
+                Files.copy(file.getInputStream(), chemin);
+                src = server + nomFichier;
+            }
+            /*int index = Objects.requireNonNull(file.getOriginalFilename()).lastIndexOf(".");
 
             Path chemin = Paths.get(location);
             if (!Files.exists(chemin)) {
@@ -58,8 +69,7 @@ public class SaveImage {
                     src = server + nomFichier
                             +file.getOriginalFilename()+ file.getOriginalFilename().substring(index).toLowerCase();
                 }
-
-            }
+                }*/
         } catch (IOException e) {
             System.out.println(e.getMessage());
             // TODO: handle exception

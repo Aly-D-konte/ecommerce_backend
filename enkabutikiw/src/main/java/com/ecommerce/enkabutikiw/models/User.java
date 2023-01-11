@@ -1,5 +1,9 @@
 package com.ecommerce.enkabutikiw.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,6 +18,8 @@ import javax.validation.constraints.Size;
       @UniqueConstraint(columnNames = "username"),
       @UniqueConstraint(columnNames = "email") 
     })
+@Data
+@AllArgsConstructor
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,18 +35,20 @@ public class User {
 
   @NotBlank
   @Size(max = 20)
+  private String nom;
+
+  @NotBlank
+  @Size(max = 20)
   private String telephone;
 
   @NotBlank
   @Size(max = 20)
   private String adresse;
 
-  @NotBlank
   @Size(max = 20)
   private String genre;
 
   @NotBlank
-  @Size(max = 20)
   private String image;
 
 
@@ -65,95 +73,19 @@ public class User {
   public User() {
   }
 
-  public User(String username, String email, String password, String prenom, String telephone, String adresse, String genre, String image) {
+  public User(String username, String email, String password, String prenom,String nom, String telephone, String adresse, String genre, String image) {
     this.username = username;
-    this.telephone = telephone;
-    this.genre = genre;
-    this.adresse = adresse;
     this.email = email;
-    this.image = image;
     this.password = password;
     this.prenom = prenom;
-
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public String getUsername() {
-    return username;
-  }
-
-  public String getPrenom() {
-    return prenom;
-  }
-
-  public String getTelephone() {
-    return telephone;
-  }
-
-  public String getAdresse() {
-    return adresse;
-  }
-
-  public String getGenre() {
-    return genre;
-  }
-
-  public String getImage() {
-    return image;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
-  public void getPrenom(String prenom) {
-    this.prenom = prenom;
-  }
-
-  public void getTelephone(String telephone) {
-    this.telephone = telephone;
-  }
-
-  public void getAdresse(String adresse) {
+    this.nom = nom;
     this.adresse = adresse;
-  }
 
-  public void getGenre(String genre) {
+    this.telephone = telephone;
     this.genre = genre;
-  }
 
-  public void getImage(String image) {
     this.image = image;
+
   }
 
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public Set<Role> getRoles() {
-    return roles;
-  }
-
-  public void setRoles(Set<Role> roles) {
-    this.roles = roles;
-  }
 }

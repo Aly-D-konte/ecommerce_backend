@@ -1,6 +1,7 @@
 package com.ecommerce.enkabutikiw.Serviceimpl;
 
 import com.ecommerce.enkabutikiw.models.Boutique;
+import com.ecommerce.enkabutikiw.models.Categorie;
 import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
 import com.ecommerce.enkabutikiw.repository.BoutiqueRepository;
 import com.ecommerce.enkabutikiw.services.BoutiqueService;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -31,19 +33,23 @@ public class BoutiqueServiceimpl implements BoutiqueService {
 
     }
 
-    @Override
     public MessageResponse supprimerBoutique(Long id) {
-        if (boutiqueRepository.findById(id) !=null){
-            boutiqueRepository.deleteById(id);
-            MessageResponse message = new MessageResponse("Boutique supprimée avec succès");
+
+        Optional<Boutique> boutique = this.boutiqueRepository.findById(id);
+        if (!boutique.isPresent()){
+            MessageResponse message = new MessageResponse(" Categorie non trouvée ");
             return message;
 
         }else {
-            MessageResponse message = new MessageResponse("Boutique non trouvée");
+            this.boutiqueRepository.delete(boutique.get());
+            MessageResponse message = new MessageResponse("Boutique supprimé avec succès");
 
             return message;
         }
+
     }
+
+
 
     @Override
     public Boutique ModifierBoutique(Boutique boutique, Long id) {

@@ -1,20 +1,29 @@
 package com.ecommerce.enkabutikiw.payload.request;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import javax.validation.constraints.NotBlank;
 
+@Data
+@AllArgsConstructor
+@ToString
+@NoArgsConstructor
 public class LoginRequest {
 	@NotBlank
-  private String username;
+  private String usernameOrEmail;
 
 	@NotBlank
 	private String password;
 
-	public String getUsername() {
-		return username;
+	public String getUsernameOrEmail() {
+		return usernameOrEmail;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUsernameOrEmail(String usernameOrEmail) {
+		this.usernameOrEmail = usernameOrEmail;
 	}
 
 	public String getPassword() {

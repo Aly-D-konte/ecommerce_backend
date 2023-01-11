@@ -19,4 +19,6 @@ public class Categorie {
     private Long id;
     private String nom;
     private String image;
+
+
 }

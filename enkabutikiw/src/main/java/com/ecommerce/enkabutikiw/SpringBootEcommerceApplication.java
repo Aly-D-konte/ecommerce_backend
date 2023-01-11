@@ -12,7 +12,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @SpringBootApplication
@@ -43,7 +45,16 @@ public class SpringBootEcommerceApplication implements  CommandLineRunner{
 
 
 		}
-		//envoie de l'email apres lancement du projet
+
+
+
+       //Pour envoyer plusieurs mails
+	  //	List<String> recipients = Arrays.asList("camaramamady9160@gmail.com", "alykonte19@gmail.com");
+	 //	emailSenderService.sendEmailToMultipleRecipients("Test Email", "Bonjour!", recipients);
+
+
+
+		//envoie un seul email apres lancement du projet
 		//emailSenderService.sendSimpleEmail("coulibalyadamabekaye03@gmail.com","test","Bonjours");
 		//System.out.println("Message envoyer !");
 	}
