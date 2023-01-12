@@ -31,7 +31,7 @@ public class ProduitController {
     @Autowired
     private final UserRepository userRepository;
     @PostMapping("/ajouter")
-    @PreAuthorize("hasRole('SUPER_ADMIN')")
+   // @PreAuthorize("hasRole('SUPER_ADMIN')")
 
     public MessageResponse ajoutProduit(@Param("nom") String nom,
                                         @Param("description") String description,
@@ -43,31 +43,29 @@ public class ProduitController {
                                         @Param("user_id") User user_id,
                                         @Param("image") String image,
                                         @Param("categorie_id") Categorie categorie_id,
-                                        @Param("commande_id") Commande commande_id,
-                                        @Param("panier_id") Panier panier_id,
+
                                         @Param("boutique_id") Boutique boutique_id,
                                         @Param("file") MultipartFile file) throws IOException {
-        Produits produits = new Produits();
+        Produits produit = new Produits();
         String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
-        produits.setNom(nom);
-        produits.setDescription(description);
-        produits.setModele(modele);
-        produits.setMarque(marque);
-        produits.setCapacite(capacite);
-        produits.setPrix(prix);
-        produits.setImage(nomfile);
-        produits.setType(type);
-        produits.setUser(user_id);
-        produits.setBoutique(boutique_id);
-        produits.setCategorie(categorie_id);
-        produits.setUser(userRepository.findById(1L).get());
+        produit.setNom(nom);
+        produit.setDescription(description);
+        produit.setModele(modele);
+        produit.setMarque(marque);
+        produit.setCapacite(capacite);
+        produit.setPrix(prix);
+   //     produits.setImage(nomfile);
+        produit.setType(type);
+        produit.setBoutique(boutique_id);
+        produit.setCategorie(categorie_id);
+        produit.setUser(userRepository.findById(1L).get());
 
         if (produitsRepository.findByNom(nom) == null){
 
 //            String uploaDir = "C:\\Users\\adkonte\\Documents\\ecommerce_backend\\enkabutikiw\\src\\test\\Images";
 //           ConfigImage.saveimg(uploaDir, nomfile, file);
-            produits.setImage(SaveImage.save(file,produits.getImage()));
-            return produitService.ajoutProduit(produits);
+            produit.setImage(SaveImage.save(file,file.getOriginalFilename()));
+            return produitService.ajoutProduit(produit,boutique_id);
 
         }else {
             MessageResponse message = new MessageResponse("Produit existe déja");
@@ -84,6 +82,10 @@ public class ProduitController {
         return produitService.liste();
     }
 
+    @GetMapping("/afficher/{id}")
+    public Produits getProductById(@PathVariable("id") Long id) {
+        return produitService.findById(id);
+    }
     @PutMapping("/modifier/{id}")
 
     @PreAuthorize("hasRole('SUPER_ADMIN')")

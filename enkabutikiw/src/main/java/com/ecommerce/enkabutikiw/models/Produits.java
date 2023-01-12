@@ -34,6 +34,6 @@ public class Produits {
     private User user;
 
     @ManyToOne
-    Boutique boutique;
+    private  Boutique boutique;
 
 }

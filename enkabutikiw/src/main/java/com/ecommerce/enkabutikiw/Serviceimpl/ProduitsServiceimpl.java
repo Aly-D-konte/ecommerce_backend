@@ -1,7 +1,9 @@
 package com.ecommerce.enkabutikiw.Serviceimpl;
 
+import com.ecommerce.enkabutikiw.models.Boutique;
 import com.ecommerce.enkabutikiw.models.Produits;
 import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
+import com.ecommerce.enkabutikiw.repository.BoutiqueRepository;
 import com.ecommerce.enkabutikiw.repository.ProduitsRepository;
 import com.ecommerce.enkabutikiw.services.ProduitService;
 import lombok.AllArgsConstructor;
@@ -16,16 +18,19 @@ public class ProduitsServiceimpl implements ProduitService {
 
     @Autowired
     private final ProduitsRepository produitsRepository;
-    @Override
-    public MessageResponse ajoutProduit(Produits produit) {
+    private final BoutiqueRepository boutiqueRepository;
 
-        if (produitsRepository.findByNom(produit.getNom())==null){
+    @Override
+    public MessageResponse ajoutProduit(Produits produit, Boutique boutique) {
+
+        if (produitsRepository.findByNom(produit.getNom())== null){
+        //    boutiqueRepository.save(produit.getBoutique());
             produitsRepository.save(produit);
             MessageResponse message = new MessageResponse("Produit ajoutée avec succès");
             return message;
 
         }else {
-            MessageResponse message = new MessageResponse("Cet Produit existe déjà");
+            MessageResponse message = new MessageResponse("Cet produit existe déjà");
 
             return message;
         }
@@ -36,14 +41,20 @@ public class ProduitsServiceimpl implements ProduitService {
 
         if (produitsRepository.findById(id) !=null){
             produitsRepository.deleteById(id);
-            MessageResponse message = new MessageResponse("Produit supprimée avec succès");
+            MessageResponse message = new MessageResponse("Produit supprimé avec succès");
             return message;
 
         }else {
-            MessageResponse message = new MessageResponse("Produit non trouvée");
+            MessageResponse message = new MessageResponse("Produit non trouvé");
 
             return message;
         }    }
+
+
+    @Override
+    public Produits findById(Long id) {
+        return produitsRepository.findById(id).orElse(null);
+    }
 
     @Override
     public Produits ModifierProduit(Produits produit, Long id) {
