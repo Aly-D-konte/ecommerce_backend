@@ -5,23 +5,38 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EmailSenderService {
     @Autowired
     private JavaMailSender mailSender;
-
-    public void sendSimpleEmail(String toEmail,
-                                String subject,
-                                String body
-    ) {
+//Pour envoyer plusieurs mail
+    public void sendEmailToMultipleRecipients(String subject, String text, List<String> recipients) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("alykonte19@gmail.com");
-        message.setTo(toEmail);
-        message.setText(body);
         message.setSubject(subject);
+        message.setText(text);
+        message.setTo(recipients.toArray(new String[0]));
         mailSender.send(message);
-        System.out.println("Mail envoyer avec succes...");
-
-
     }
+
+
+
+    //Pour envoyer un seul mail
+
+
+//    public void sendSimpleEmail(String toEmail,
+//                                String subject,
+//                                String body
+//    ) {
+//        SimpleMailMessage message = new SimpleMailMessage();
+//        message.setFrom("alykonte19@gmail.com");
+//        message.setTo(toEmail);
+//        message.setText(body);
+//        message.setSubject(subject);
+//        mailSender.send(message);
+//        System.out.println("Mail envoyer avec succes...");
+//
+//
+//    }
 }

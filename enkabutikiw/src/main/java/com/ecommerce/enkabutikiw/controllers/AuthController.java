@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import com.ecommerce.enkabutikiw.img.SaveImage;
 import com.ecommerce.enkabutikiw.models.ERole;
 import com.ecommerce.enkabutikiw.models.Role;
 import com.ecommerce.enkabutikiw.models.User;
@@ -17,19 +18,20 @@ import com.ecommerce.enkabutikiw.repository.RoleRepository;
 import com.ecommerce.enkabutikiw.repository.UserRepository;
 import com.ecommerce.enkabutikiw.security.jwt.JwtUtils;
 import com.ecommerce.enkabutikiw.services.UserDetailsImpl;
+import com.ecommerce.enkabutikiw.services.UserModifierService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
 import com.ecommerce.enkabutikiw.payload.request.SignupRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 //@CrossOrigin(origins = "http://localhost:4200" , maxAge = 3600, allowCredentials="true")
 @RestController
@@ -45,6 +47,9 @@ public class AuthController {
   RoleRepository roleRepository;
 
   @Autowired
+  private UserModifierService userModifierService;
+
+  @Autowired
   PasswordEncoder encoder;
 
   @Autowired
@@ -54,7 +59,7 @@ public class AuthController {
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
     Authentication authentication = authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
     String jwt = jwtUtils.generateJwtToken(authentication);
@@ -76,24 +81,25 @@ public class AuthController {
     if (userRepository.existsByUsername(signUpRequest.getUsername())) {
       return ResponseEntity
           .badRequest()
-          .body(new MessageResponse("Error: Username is already taken!"));
+          .body(new MessageResponse("Error: Username existe déja!"));
     }
 
     if (userRepository.existsByEmail(signUpRequest.getEmail())) {
       return ResponseEntity
           .badRequest()
-          .body(new MessageResponse("Error: Email is already in use!"));
+          .body(new MessageResponse("Error: Email existe pour cet utilisateur!"));
     }
 
     // Create new user's account
     User user = new User(signUpRequest.getUsername(),
                signUpRequest.getEmail(),
+               encoder.encode(signUpRequest.getPassword()),
             signUpRequest.getPrenom(),
+            signUpRequest.getNom(),
             signUpRequest.getTelephone(),
             signUpRequest.getAdresse(),
             signUpRequest.getGenre(),
-            signUpRequest.getImage(),
-               encoder.encode(signUpRequest.getPassword()));
+            signUpRequest.getImage());
 
     Set<String> strRoles = signUpRequest.getRole();
     Set<Role> roles = new HashSet<>();
@@ -112,6 +118,20 @@ public class AuthController {
 
           break;
 
+          case "superadmin":
+            Role Super_adminRole = roleRepository.findByName(ERole.ROLE_SUPER_ADMIN)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(Super_adminRole);
+
+            break;
+
+          case "livreur":
+            Role livreurRole = roleRepository.findByName(ERole.ROLE_LIVREUR)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(livreurRole);
+
+            break;
+
 
         default:
           Role userRole = roleRepository.findByName(ERole.ROLE_USER)
@@ -122,8 +142,21 @@ public class AuthController {
     }
 
     user.setRoles(roles);
+    user.setImage("http://127.0.0.1/Images/avatar.jpg");
     userRepository.save(user);
 
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+  }
+
+  @PatchMapping("/modifierAvatar/{id}")
+  public MessageResponse ModifierAvatar(@Param("file") MultipartFile file,
+                                       @PathVariable("id") Long id){
+    User user = new User();
+    String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
+
+    user.setImage(SaveImage.save(file, nomfile));
+
+    return userModifierService.ModifierAvatar(user, id);
+
   }
 }

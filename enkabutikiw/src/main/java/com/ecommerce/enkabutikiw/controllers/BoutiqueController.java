@@ -9,6 +9,7 @@ import com.ecommerce.enkabutikiw.repository.UserRepository;
 import com.ecommerce.enkabutikiw.services.BoutiqueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +31,8 @@ public class BoutiqueController {
     private BoutiqueRepository boutiqueRepository;
 
     @PostMapping("/ajouter")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+
     public MessageResponse ajoutBoutique(@Param("nom") String nom, @Param("description") String description, @Param("adresse") String adresse, @Param("user_id") User user_id, @Param("image") String image, @Param("type") boolean type, @Param("file") MultipartFile file) throws IOException {
         Boutique boutique = new Boutique();
         String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
@@ -59,18 +62,28 @@ public class BoutiqueController {
 
 
 
-    @GetMapping("liste")
-    public List<Boutique> list(Boutique boutique){
+    @GetMapping("/liste")
+    //@PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('SUPER_ADMIN') ")
+
+    public List<Boutique> list(){
         return boutiqueService.liste();
     }
 
     @PutMapping("/modifier/{id}")
+
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+
     public Boutique modifierBoutique(@Param("boutique") Boutique boutique, @PathVariable Long id){
         return boutiqueService.ModifierBoutique(boutique, id);
     }
 
-    @GetMapping("/supprimer/{id}")
-    public MessageResponse supprimerBoutique(@PathVariable Long id){
+
+
+
+    @DeleteMapping("/supprimer/{id}")
+    //@PreAuthorize("hasRole('SUPER_ADMIN')")
+
+    public MessageResponse supprimerBoutique(@PathVariable("id") Long id){
         return boutiqueService.supprimerBoutique(id);
     }
 
