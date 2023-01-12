@@ -29,7 +29,7 @@ public class CategorieController {
                                           @Param("image") String image,
                                           @Param("file") MultipartFile file) throws IOException {
         Categorie categorie = new Categorie();
-        String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
+       // String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
         categorie.setNom(nom);
         //categorie.setImage(nomfile);
 

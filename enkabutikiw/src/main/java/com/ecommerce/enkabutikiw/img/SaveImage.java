@@ -28,7 +28,7 @@ public class SaveImage {
             Path chemin = Paths.get(location + nomFichier);
 
             if (!Files.exists(chemin)) {
-                Files.createDirectories(chemin);
+                Files.createDirectories(chemin.getParent());
                 Files.copy(file.getInputStream(), chemin);
                 src = server + nomFichier;
             } else {
@@ -71,6 +71,7 @@ public class SaveImage {
                 }
                 }*/
         } catch (IOException e) {
+            e.printStackTrace();
             System.out.println(e.getMessage());
             // TODO: handle exception
             src = null;

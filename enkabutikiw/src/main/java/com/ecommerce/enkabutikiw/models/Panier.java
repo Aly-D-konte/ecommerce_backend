@@ -20,10 +20,14 @@ public class Panier {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer nombreproduit;
+    private Long Totalproduit;
+    private Long quantite;
 
-    @ManyToMany
-    private List<Produits> produitsList = new ArrayList<>();
+
+
+
+    @ManyToMany(cascade = CascadeType.DETACH)
+    private List<Produits> produits = new ArrayList<>();
 
 
 }

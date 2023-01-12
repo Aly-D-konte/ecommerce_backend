@@ -35,7 +35,7 @@ public class BoutiqueController {
 
     public MessageResponse ajoutBoutique(@Param("nom") String nom, @Param("description") String description, @Param("adresse") String adresse, @Param("user_id") User user_id, @Param("image") String image, @Param("type") boolean type, @Param("file") MultipartFile file) throws IOException {
         Boutique boutique = new Boutique();
-        String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
+     String nomfile = StringUtils.cleanPath(file.getOriginalFilename()) ;
         boutique.setNom(nom);
         boutique.setDescription(description);
         boutique.setAdresse(adresse);
@@ -48,7 +48,7 @@ public class BoutiqueController {
 
 //            String uploaDir = "C:\\Users\\adkonte\\Documents\\ecommerce_backend\\enkabutikiw\\src\\test\\Images";
 //           ConfigImage.saveimg(uploaDir, nomfile, file);
-            boutique.setImage(SaveImage.save(file,boutique.getImage()));
+            boutique.setImage(SaveImage.save(file, boutique.getImage() ));
             return boutiqueService.ajoutBoutique(boutique);
 
         }else {
