@@ -24,6 +24,7 @@ public class Produits {
     private String modele;
     private String capacite;
     private String image;
+    private Long quantite;
     private String type;
 
     //Mapping

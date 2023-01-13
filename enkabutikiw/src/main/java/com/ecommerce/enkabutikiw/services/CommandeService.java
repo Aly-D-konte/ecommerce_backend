@@ -1,6 +1,7 @@
 package com.ecommerce.enkabutikiw.services;
 
 import com.ecommerce.enkabutikiw.models.Commande;
+import com.ecommerce.enkabutikiw.models.Panier;
 import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
 
 import java.util.List;
@@ -11,4 +12,5 @@ public interface CommandeService {
     MessageResponse supprimerCommande(Long id);
     Commande ModifierCommande(Commande commande, Long id);
     List<Commande> liste();
+   // float getPanier(List<Panier> paniers);
 }

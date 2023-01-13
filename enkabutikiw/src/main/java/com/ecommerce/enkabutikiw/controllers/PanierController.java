@@ -11,6 +11,8 @@ import com.ecommerce.enkabutikiw.services.PanierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/panier")
@@ -83,5 +85,10 @@ public class PanierController {
         return panierService.cleanPanier(id);
     }
 
+    @GetMapping("/liste")
+    //@PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('SUPER_ADMIN') ")
 
+    public List<Panier> list(){
+        return panierService.liste();
+    }
 }

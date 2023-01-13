@@ -38,10 +38,9 @@ public class ProduitController {
                                         @Param("marque") String marque,
                                         @Param("modele") String modele,
                                         @Param("prix") Long prix,
+                                        @Param("quantite") Long quantite,
                                         @Param("capacite") String capacite,
                                         @Param("type") String type,
-                                        @Param("user_id") User user_id,
-                                        @Param("image") String image,
                                         @Param("categorie_id") Categorie categorie_id,
 
                                         @Param("boutique_id") Boutique boutique_id,
@@ -53,6 +52,7 @@ public class ProduitController {
         produit.setModele(modele);
         produit.setMarque(marque);
         produit.setCapacite(capacite);
+        produit.setQuantite(quantite);
         produit.setPrix(prix);
    //     produits.setImage(nomfile);
         produit.setType(type);

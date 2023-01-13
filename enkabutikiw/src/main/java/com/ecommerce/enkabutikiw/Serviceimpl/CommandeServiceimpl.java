@@ -1,9 +1,12 @@
 package com.ecommerce.enkabutikiw.Serviceimpl;
 
 import com.ecommerce.enkabutikiw.models.Commande;
+import com.ecommerce.enkabutikiw.models.Panier;
+import com.ecommerce.enkabutikiw.models.Produits;
 import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
 import com.ecommerce.enkabutikiw.repository.CategorieRepository;
 import com.ecommerce.enkabutikiw.repository.CommandeRepository;
+import com.ecommerce.enkabutikiw.repository.ProduitsRepository;
 import com.ecommerce.enkabutikiw.services.CommandeService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,8 @@ public class CommandeServiceimpl implements CommandeService {
     @Autowired
     private final CommandeRepository commandeRepository;
     private final CategorieRepository categorieRepository;
+    @Autowired
+    private final ProduitsRepository produitsRepository;
 
 
     @Override
@@ -50,6 +55,9 @@ public class CommandeServiceimpl implements CommandeService {
         }
     }
 
+    //checkout commande
+
+
     @Override
     public Commande ModifierCommande(Commande commande, Long id) {
         Commande modifierCommande = commandeRepository.findById(id).get();
@@ -63,4 +71,36 @@ public class CommandeServiceimpl implements CommandeService {
     public List<Commande> liste() {
         return commandeRepository.findAll();
     }
+
+//    @Override
+//    public float getPanier(List<Panier> paniers) {
+//        float totalMontantPanier= 0f;
+//        float montantSimplePanier = 0f;
+//        int quantite = 0;
+//
+//        for (Panier panier : paniers){
+//           // int produit_id = panier.getProduits();
+//            Optional<Produits> produit = produitsRepository.findById(panier.getId());
+//            if (produit.isPresent()){
+//                Produits produit1 = produit.get();
+//                if (produit1.getQuantite() < panier.getQuantite()){
+//                    montantSimplePanier = produit1.getPrix() * produit1.getQuantite();
+//                    panier.setQuantite(produit1.getQuantite());
+//                } else {
+//                    montantSimplePanier = panier.getQuantite() * produit1.getPrix();
+//                    quantite = produit1.getQuantite() - panier.getQuantite();
+//                }
+//                totalMontantPanier = totalMontantPanier + montantSimplePanier;
+//                produit1.setQuantite(quantite);
+//                quantite = 0;
+//             //  panier.setProduits(produit1.getNom());
+//                panier.setTotalproduit((long) montantSimplePanier);
+//                 commandeRepository.saveAll(produit1);
+//
+//
+//            }
+//
+//        }
+//        return totalMontantPanier;
+//    }
 }

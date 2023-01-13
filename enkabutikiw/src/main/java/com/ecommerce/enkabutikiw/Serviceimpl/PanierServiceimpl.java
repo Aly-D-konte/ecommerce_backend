@@ -64,5 +64,10 @@ public class PanierServiceimpl implements PanierService {
         return message;
     }
 
+    @Override
+    public List<Panier> liste() {
+        return panierRepository.findAll();
+    }
+
 
 }
