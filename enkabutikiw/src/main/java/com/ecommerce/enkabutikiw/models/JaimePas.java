@@ -1,27 +1,24 @@
 package com.ecommerce.enkabutikiw.models;
 
+
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.Date;
 
-@Entity
 @Table
-@Data
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class Paiment {
+public class JaimePas {
+
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
-    private Long id;
-    private Date date;
-    private Long montant;
-    private String type;
+    private  Long id;
 
-    @OneToOne
-    private Panier panier;
+
+    @ManyToOne
+    private User user;
 }
+
+
