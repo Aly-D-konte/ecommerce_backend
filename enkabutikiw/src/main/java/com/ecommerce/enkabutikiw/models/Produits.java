@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table
@@ -34,7 +36,11 @@ public class Produits {
     @ManyToOne
     private User user;
 
-    @ManyToOne
-    private  Boutique boutique;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(  name = "boutique_produits",
+            joinColumns = @JoinColumn(name = "boutique_id"),
+            inverseJoinColumns = @JoinColumn(name = "produits_id"))
+    private Set<Boutique> boutiques = new HashSet<>();
+
 
 }

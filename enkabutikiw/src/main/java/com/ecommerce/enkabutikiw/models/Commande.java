@@ -4,11 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.security.core.parameters.P;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table
@@ -22,17 +20,34 @@ public class Commande {
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Long id;
     private String code;
-    private Long montant;
-    private Date date;
-    private Long quantite;
 
+    private Date date;
+
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private Statut statut;
+
+
+//    public Commande(String code, Long montant, Date date, Long quantite) {
+//        this.code = code;
+//        this.montant = montant;
+//        this.date = date;
+//        this.quantite = quantite;
+//
+//    }
     @ManyToOne
     private User user;
+
+
+    @OneToOne
+    private Panier panier;
 
     @ManyToOne
     private  Paiment paiment;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Panier> paniers ;
+//    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    private Panier paniers ;
+
 
 }

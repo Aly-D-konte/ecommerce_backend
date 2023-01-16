@@ -20,7 +20,7 @@ import java.util.Optional;
 public class CommandeServiceimpl implements CommandeService {
 
     @Autowired
-    private final CommandeRepository commandeRepository;
+    private  CommandeRepository commandeRepository;
     private final CategorieRepository categorieRepository;
     @Autowired
     private final ProduitsRepository produitsRepository;
@@ -63,8 +63,7 @@ public class CommandeServiceimpl implements CommandeService {
         Commande modifierCommande = commandeRepository.findById(id).get();
         commande.setCode(commande.getCode());
         commande.setDate(commande.getDate());
-        commande.setMontant(commande.getMontant());
-        commande.setQuantite(commande.getQuantite());
+
         return commandeRepository.saveAndFlush(modifierCommande);    }
 
     @Override
@@ -72,9 +71,52 @@ public class CommandeServiceimpl implements CommandeService {
         return commandeRepository.findAll();
     }
 
+    @Override
+    public Commande findByCode(String code) {
+        return commandeRepository.findByCode(code);
+    }
+
+    @Override
+    public float save(Produits id, List<Panier> paniers) {
+        return 0;
+    }
+
+
+//    @Override
+//    public float save(Produits id, List<Panier> paniers) {
+//        //Commande commandes = findByCode(id.getCode());
+//        float totalMontantPanier = 0f;
+//        float montantSimplePanier = 0f;
+//        int quantite = 0;
+//
+//        for (Panier panier : paniers){
+//          //  Produits produit_id = panier.getProduits().get(id);
+//            Optional<Produits> produit = produitsRepository.findById(id);
+//            if (panier.getProduits().)
+//
+//            if (produit.isPresent()){
+//                Produits produit1 = produit.get();
+//                if (produit1.getQuantite() < panier.getQuantite()){
+//                   montantSimplePanier = produit1.getPrix() * produit1.getQuantite();
+//                    panier.setQuantite(produit1.getQuantite());
+//                } else {
+//                    montantSimplePanier = panier.getQuantite() * produit1.getPrix();
+//                    quantite = (int) (produit1.getQuantite() - panier.getQuantite());
+//              }
+//                totalMontantPanier = totalMontantPanier + montantSimplePanier;
+//                produit1.setQuantite((long) quantite);
+//                quantite = 0;
+//                panier.setProduits(produit1.getNom());
+//                panier.setTotalproduit((long) montantSimplePanier);
+//                commandeRepository.save(produit1);
+//            }
+//        }
+//        return totalMontantPanier;
+//    }
+
 //    @Override
 //    public float getPanier(List<Panier> paniers) {
-//        float totalMontantPanier= 0f;
+//        float totalMontantPanier = 0f;
 //        float montantSimplePanier = 0f;
 //        int quantite = 0;
 //
@@ -103,4 +145,6 @@ public class CommandeServiceimpl implements CommandeService {
 //        }
 //        return totalMontantPanier;
 //    }
+
+
 }

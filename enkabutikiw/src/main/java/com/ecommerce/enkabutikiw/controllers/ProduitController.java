@@ -56,7 +56,6 @@ public class ProduitController {
         produit.setPrix(prix);
    //     produits.setImage(nomfile);
         produit.setType(type);
-        produit.setBoutique(boutique_id);
         produit.setCategorie(categorie_id);
         produit.setUser(userRepository.findById(1L).get());
 
