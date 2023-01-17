@@ -3,6 +3,7 @@ package com.ecommerce.enkabutikiw.controllers;
 import com.ecommerce.enkabutikiw.img.SaveImage;
 import com.ecommerce.enkabutikiw.models.*;
 import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
+import com.ecommerce.enkabutikiw.repository.BoutiqueRepository;
 import com.ecommerce.enkabutikiw.repository.ProduitsRepository;
 import com.ecommerce.enkabutikiw.repository.UserRepository;
 import com.ecommerce.enkabutikiw.services.ProduitService;
@@ -30,6 +31,9 @@ public class ProduitController {
     private final ProduitsRepository produitsRepository;
     @Autowired
     private final UserRepository userRepository;
+    @Autowired
+    private BoutiqueRepository boutiqueRepository;
+
     @PostMapping("/ajouter")
     @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN')")
 
@@ -42,8 +46,8 @@ public class ProduitController {
                                         @Param("capacite") String capacite,
                                         @Param("type") String type,
                                         @Param("categorie_id") Categorie categorie_id,
-
-                                        @Param("boutique_id") Boutique boutique_id,
+                                        @Param("user_id") long user_id,
+                                        @Param("boutique_id") long boutique_id,
                                         @Param("file") MultipartFile file) throws IOException {
         Produits produit = new Produits();
         String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
@@ -54,17 +58,20 @@ public class ProduitController {
         produit.setCapacite(capacite);
         produit.setQuantite(quantite);
         produit.setPrix(prix);
+        produit.getBoutiques().add(boutiqueRepository.findById(boutique_id).get());
+        //produit.setBoutiques(produit.getBoutiques());
    //     produits.setImage(nomfile);
         produit.setType(type);
         produit.setCategorie(categorie_id);
        // produit.setUser(userRepository.findById(1L).get());
 
+        produit.setUser(userRepository.findById(user_id).get());
         if (produitsRepository.findByNom(nom) == null){
 
 //            String uploaDir = "C:\\Users\\adkonte\\Documents\\ecommerce_backend\\enkabutikiw\\src\\test\\Images";
 //           ConfigImage.saveimg(uploaDir, nomfile, file);
             produit.setImage(SaveImage.save(file,file.getOriginalFilename()));
-            return produitService.ajoutProduit(produit,boutique_id);
+            return produitService.ajoutProduit(produit);
 
         }else {
             MessageResponse message = new MessageResponse("Produit existe déja");

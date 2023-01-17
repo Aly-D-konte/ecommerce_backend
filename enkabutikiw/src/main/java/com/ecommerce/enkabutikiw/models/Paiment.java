@@ -23,5 +23,5 @@ public class Paiment {
     private String type;
 
     @OneToOne
-    private Panier panier;
+    private Commande commande;
 }

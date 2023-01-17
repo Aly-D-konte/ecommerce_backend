@@ -31,21 +31,21 @@ public class PanierController {
 
 
     //   ICI ON AJOUTE UN PRODUIT AU PANIER
-    @PostMapping("/ajouter/{produit}/{user}")
-    public MessageResponse AjouterPanier(@RequestBody Panier panier, @PathVariable("produit") Produits produit, @PathVariable("user") User user) {
+    @PostMapping("/ajouter/{produit}")
+    public MessageResponse AjouterPanier(@RequestBody Panier panier, @PathVariable("produit") Produits produit) {
 
-        if(userRepository.findById(user.getId()) != null) {
+
             Long Qte =  (panier.getQuantite());
            // panier.setUser(user);
             panier.setQuantite(panier.getQuantite());
             panier.setTotalproduit((produit.getPrix()) * panier.getQuantite());
             panier.getProduits().add(produit);
+     //   MessageResponse message = new MessageResponse("Impossible d'ajouté au panier");
 
             return  panierService.ajoutPanier(panier, produit);
-        }else {
-            MessageResponse message = new MessageResponse("Impossible d'ajouté au panier");
-            return message;
-        }
+
+
+
 
     }
 

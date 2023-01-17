@@ -43,8 +43,7 @@ public class Commande {
     @OneToOne
     private Panier panier;
 
-    @ManyToOne
-    private  Paiment paiment;
+
 
 //    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 //    private Panier paniers ;
