@@ -31,7 +31,7 @@ public class ProduitController {
     @Autowired
     private final UserRepository userRepository;
     @PostMapping("/ajouter")
-   // @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN')")
 
     public MessageResponse ajoutProduit(@Param("nom") String nom,
                                         @Param("description") String description,
@@ -57,7 +57,7 @@ public class ProduitController {
    //     produits.setImage(nomfile);
         produit.setType(type);
         produit.setCategorie(categorie_id);
-        produit.setUser(userRepository.findById(1L).get());
+       // produit.setUser(userRepository.findById(1L).get());
 
         if (produitsRepository.findByNom(nom) == null){
 
@@ -75,19 +75,23 @@ public class ProduitController {
     }
 
     @GetMapping("/liste")
-    //@PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('SUPER_ADMIN') ")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('SUPER_ADMIN') ")
 
     public List<Produits> list(){
         return produitService.liste();
     }
 
     @GetMapping("/afficher/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('SUPER_ADMIN') ")
+
     public Produits getProductById(@PathVariable("id") Long id) {
         return produitService.findById(id);
     }
+
+
     @PutMapping("/modifier/{id}")
 
-    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('SUPER_ADMIN') ")
 
     public Produits modifierProduit(@Param("boutique") Produits produits, @PathVariable Long id){
         return produitService.ModifierProduit(produits, id);
@@ -97,7 +101,7 @@ public class ProduitController {
 
 
     @DeleteMapping("/supprimer/{id}")
-    //@PreAuthorize("hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
 
     public MessageResponse supprimerProduits(@PathVariable("id") Long id){
         return produitService.supprimerProduit(id);

@@ -7,6 +7,7 @@ import com.ecommerce.enkabutikiw.repository.CategorieRepository;
 import com.ecommerce.enkabutikiw.services.CategorieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,7 +25,10 @@ public class CategorieController {
     private CategorieRepository categorieRepository;
 
 
+
     @PostMapping("/ajouter")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN') ")
+
     public MessageResponse ajoutCategorie(@Param("nom") String nom,
                                           @Param("image") String image,
                                           @Param("file") MultipartFile file) throws IOException {
@@ -51,14 +55,22 @@ public class CategorieController {
 
 
     @GetMapping("/liste")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('SUPER_ADMIN') ")
+
     public List<Categorie> list(Categorie categorie){
         return categorieService.liste();
     }
 
+
+
     @PutMapping("/modifier/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN') ")
+
     public Categorie modifierCategorie(@Param("Categorie") Categorie categorie, @PathVariable Long id){
         return categorieService.ModifierCategorie(categorie, id);
     }
+
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('SUPER_ADMIN') ")
 
     @DeleteMapping("/supprimer/{id}")
     public MessageResponse supprimerCategorie(@PathVariable Long id){
