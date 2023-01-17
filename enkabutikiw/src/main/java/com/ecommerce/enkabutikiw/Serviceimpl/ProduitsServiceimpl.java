@@ -21,7 +21,7 @@ public class ProduitsServiceimpl implements ProduitService {
     private final BoutiqueRepository boutiqueRepository;
 
     @Override
-    public MessageResponse ajoutProduit(Produits produit, Boutique boutique) {
+    public MessageResponse ajoutProduit(Produits produit) {
 
         if (produitsRepository.findByNom(produit.getNom())== null){
         //    boutiqueRepository.save(produit.getBoutique());

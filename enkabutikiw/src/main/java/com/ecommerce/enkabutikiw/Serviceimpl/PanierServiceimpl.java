@@ -25,7 +25,7 @@ public class PanierServiceimpl implements PanierService {
         Boolean panier3 = panierRepository.existsByProduits(produits);
 
         if(!panier3){
-            //panier.setProduits((List<Produits>) produits.getUser());
+          //  panier.setProduits((List<Produits>) produits.getUser());
             panier.setQuantite(panier.getQuantite());
             panier.setTotalproduit((produits.getPrix()));
             panierRepository.save(panier);

@@ -3,6 +3,7 @@ package com.ecommerce.enkabutikiw.Serviceimpl;
 import com.ecommerce.enkabutikiw.models.Commande;
 import com.ecommerce.enkabutikiw.models.Panier;
 import com.ecommerce.enkabutikiw.models.Produits;
+import com.ecommerce.enkabutikiw.models.Statut;
 import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
 import com.ecommerce.enkabutikiw.repository.CategorieRepository;
 import com.ecommerce.enkabutikiw.repository.CommandeRepository;
@@ -12,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +31,10 @@ public class CommandeServiceimpl implements CommandeService {
     @Override
     public MessageResponse ajouteCommande(Commande commande) {
         if (commandeRepository.findByCode(commande.getCode())==null){
-            commandeRepository.save(commande);
+            Commande commande1 = new Commande();
+            commande1.setDate(new Date());
+            commande1.setStatut(Statut.ENCOURS);
+            commandeRepository.save(commande1);
             MessageResponse message = new MessageResponse("Commande ajoutée avec succès");
             return message;
 

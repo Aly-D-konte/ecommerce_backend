@@ -33,16 +33,21 @@ public class BoutiqueController {
     @PostMapping("/ajouter")
     @PreAuthorize("hasRole('SUPER_ADMIN')")
 
-    public MessageResponse ajoutBoutique(@Param("nom") String nom, @Param("description") String description, @Param("adresse") String adresse, @Param("user_id") User user_id, @Param("image") String image, @Param("type") boolean type, @Param("file") MultipartFile file) throws IOException {
+    public MessageResponse ajoutBoutique(@Param("nom") String nom,
+                                         @Param("description") String description,
+                                         @Param("adresse") String adresse,
+                                         @Param("user_id") Long user_id,
+                                        // @PathVariable("user_id") Long user_id,
+                                         @Param("image") String image, @Param("type") boolean etat, @Param("file") MultipartFile file) throws IOException {
         Boutique boutique = new Boutique();
      // String nomfile = StringUtils.cleanPath(file.getOriginalFilename()) ;
         boutique.setNom(nom);
         boutique.setDescription(description);
         boutique.setAdresse(adresse);
       //  boutique.setImage(nomfile);
-        boutique.setType(type);
-        boutique.setUser(user_id);
-        boutique.setUser(userRepository.findById(1L).get());
+        boutique.setEtat(boutique.isEtat());
+        //boutique.setUser(user_id);
+      boutique.setUser(userRepository.findById(user_id).get());
 
         if (boutiqueRepository.findByNom(nom) == null){
 
@@ -64,7 +69,7 @@ public class BoutiqueController {
 
 
     @GetMapping("/liste")
-    //@PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('SUPER_ADMIN') ")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('SUPER_ADMIN') ")
 
     public List<Boutique> list(){
         return boutiqueService.liste();
@@ -82,7 +87,7 @@ public class BoutiqueController {
 
 
     @DeleteMapping("/supprimer/{id}")
-    //@PreAuthorize("hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
 
     public MessageResponse supprimerBoutique(@PathVariable("id") Long id){
         return boutiqueService.supprimerBoutique(id);

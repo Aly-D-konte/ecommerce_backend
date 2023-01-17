@@ -57,7 +57,7 @@ public class BoutiqueServiceimpl implements BoutiqueService {
         modifierBoutique.setNom(boutique.getNom());
         modifierBoutique.setDescription(boutique.getDescription());
         modifierBoutique.setAdresse(boutique.getAdresse());
-        modifierBoutique.setType(boutique.isType());
+        modifierBoutique.setEtat(boutique.isEtat());
         modifierBoutique.setImage(boutique.getImage());
         return boutiqueRepository.saveAndFlush(modifierBoutique);
     }
