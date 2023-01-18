@@ -10,7 +10,7 @@ import java.util.List;
 public interface CommandeService {
 
 
-    MessageResponse ajouteCommande(Commande commande);
+    MessageResponse ajouteCommande(Commande commande, Long id);
     MessageResponse supprimerCommande(Long id);
     Commande ModifierCommande(Commande commande, Long id);
     List<Commande> liste();
@@ -18,5 +18,5 @@ public interface CommandeService {
 
     Commande findByCode(String code);
     float save(Produits id, List<Panier> paniers);
-
+    MessageResponse commander(Commande commande,List<Panier> paniers, Long produits_id);
 }
