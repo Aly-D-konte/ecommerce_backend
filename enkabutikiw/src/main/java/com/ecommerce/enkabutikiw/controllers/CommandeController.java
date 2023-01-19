@@ -1,22 +1,23 @@
 package com.ecommerce.enkabutikiw.controllers;
 
-        import com.ecommerce.enkabutikiw.DTO.CommandeDto;
-        import com.ecommerce.enkabutikiw.Serviceimpl.UserServiceimpl;
-        import com.ecommerce.enkabutikiw.models.Commande;
-        import com.ecommerce.enkabutikiw.models.User;
-        import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
-        import com.ecommerce.enkabutikiw.repository.CommandeRepository;
-        import com.ecommerce.enkabutikiw.repository.PanierRepository;
-        import com.ecommerce.enkabutikiw.repository.UserRepository;
-        import com.ecommerce.enkabutikiw.services.CommandeService;
-        import com.ecommerce.enkabutikiw.services.PanierService;
-        import com.ecommerce.enkabutikiw.services.UserService;
-        import lombok.AllArgsConstructor;
-        import org.springframework.beans.factory.annotation.Autowired;
-        import org.springframework.ui.Model;
-        import org.springframework.web.bind.annotation.*;
+import com.ecommerce.enkabutikiw.DTO.CommandeDto;
+import com.ecommerce.enkabutikiw.Serviceimpl.UserServiceimpl;
+import com.ecommerce.enkabutikiw.models.Commande;
+import com.ecommerce.enkabutikiw.models.User;
+import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
+import com.ecommerce.enkabutikiw.repository.CommandeRepository;
+import com.ecommerce.enkabutikiw.repository.PanierRepository;
+import com.ecommerce.enkabutikiw.repository.UserRepository;
+import com.ecommerce.enkabutikiw.services.CommandeService;
+import com.ecommerce.enkabutikiw.services.PanierService;
+import com.ecommerce.enkabutikiw.services.UserService;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-        import java.util.Date;
+import java.util.Date;
+import java.util.List;
 
 
 @RestController
@@ -87,14 +88,34 @@ public class CommandeController {
     @PostMapping("/ajouter/{panier_id}")
     public  MessageResponse ajouterCommande(@RequestBody Commande commande, @PathVariable("panier_id") Long panier_id){
         if (commandeRepository.findByCode(commande.getCode())==null){
-            Commande commande1 = new Commande();
-            commande1.setCode(commande1.getCode());
-          return   commandeService.ajouteCommande(commande1);
+            Commande commandes = new Commande();
+            commande.setCode(commande.getCode());
+            commande.setPanier(panierRepository.findById(panier_id).get());
+            return   commandeService.ajouteCommande(commande, panier_id);
         }
         else {
             MessageResponse message = new MessageResponse("Cette reference existe déja");
             return message;
         }
 
+    }
+
+    @GetMapping("/liste")
+    public List<Commande> list(){
+        return commandeService.liste();
+    }
+
+
+    @PostMapping("/commander/{panier_id}")
+    public MessageResponse commande(@RequestBody Commande commande, @PathVariable("panier_id") Long panier_id){
+        if (commandeRepository.findByCode(commande.getCode())==null){
+            commande.setCode(commande.getCode());
+            commande.setPanier(panierRepository.findById(panier_id).get());
+            return   commandeService.ajouteCommande(commande, panier_id);
+        }
+        else {
+            MessageResponse message = new MessageResponse("Cette reference existe déja");
+            return message;
+        }
     }
 }

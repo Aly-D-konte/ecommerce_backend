@@ -3,7 +3,6 @@ package com.ecommerce.enkabutikiw.Serviceimpl;
 import com.ecommerce.enkabutikiw.models.Commande;
 import com.ecommerce.enkabutikiw.models.Panier;
 import com.ecommerce.enkabutikiw.models.Produits;
-import com.ecommerce.enkabutikiw.models.Statut;
 import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
 import com.ecommerce.enkabutikiw.repository.CategorieRepository;
 import com.ecommerce.enkabutikiw.repository.CommandeRepository;
@@ -29,12 +28,17 @@ public class CommandeServiceimpl implements CommandeService {
 
 
     @Override
-    public MessageResponse ajouteCommande(Commande commande) {
+    public MessageResponse ajouteCommande(Commande commande,Long id ) {
+
         if (commandeRepository.findByCode(commande.getCode())==null){
-            Commande commande1 = new Commande();
-            commande1.setDate(new Date());
-            commande1.setStatut(Statut.ENCOURS);
-            commandeRepository.save(commande1);
+            commande.setDate(new Date());
+            Optional<Produits> produit = produitsRepository.findById(id);
+
+            if (produit.isPresent())
+            {
+
+            }
+            commandeRepository.save(commande);
             MessageResponse message = new MessageResponse("Commande ajoutée avec succès");
             return message;
 
@@ -86,7 +90,26 @@ public class CommandeServiceimpl implements CommandeService {
         return 0;
     }
 
+    @Override
+    public MessageResponse commander(Commande commande,List<Panier> paniers, Long produits_id) {
 
+        commande.setDate(new Date());
+//
+//        for (Panier panier : paniers) {
+//            Produits produits = produitsRepository.findById(panier.getProduits()).orElseThrow(() -> new ProduitNotFoundException());
+//            if (panier.getQuantite() > produits.getQuantite_disponible()) {
+//                MessageResponse message = new MessageResponse(" La qualité est commandée est supérieure au stock ");
+//                return  message;
+//            }
+//            Long newQuantity = produits.getQuantite_disponible() - panier.getQuantite();
+//            produits.setQuantite_disponible(newQuantity);
+//            produitsRepository.save(produits);
+//        }
+        commandeRepository.save(commande);
+        MessageResponse message = new MessageResponse(" Commande effectué avec success ");
+
+        return message;
+    }
 //    @Override
 //    public float save(Produits id, List<Panier> paniers) {
 //        //Commande commandes = findByCode(id.getCode());

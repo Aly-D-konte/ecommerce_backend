@@ -56,14 +56,14 @@ public class ProduitController {
         produit.setModele(modele);
         produit.setMarque(marque);
         produit.setCapacite(capacite);
-        produit.setQuantite(quantite);
+        produit.setQuantite_disponible(quantite);
         produit.setPrix(prix);
         produit.getBoutiques().add(boutiqueRepository.findById(boutique_id).get());
         //produit.setBoutiques(produit.getBoutiques());
-   //     produits.setImage(nomfile);
+        //     produits.setImage(nomfile);
         produit.setType(type);
         produit.setCategorie(categorie_id);
-       // produit.setUser(userRepository.findById(1L).get());
+        // produit.setUser(userRepository.findById(1L).get());
 
         produit.setUser(userRepository.findById(user_id).get());
         if (produitsRepository.findByNom(nom) == null){
