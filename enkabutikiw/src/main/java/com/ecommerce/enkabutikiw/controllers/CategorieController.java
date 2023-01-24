@@ -16,7 +16,8 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/categorie")
+@RequestMapping("/api/categorie")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public class CategorieController {
 
     @Autowired
@@ -55,7 +56,7 @@ public class CategorieController {
 
 
     @GetMapping("/liste")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('SUPER_ADMIN') ")
+   // @PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('SUPER_ADMIN') ")
 
     public List<Categorie> list(Categorie categorie){
         return categorieService.liste();

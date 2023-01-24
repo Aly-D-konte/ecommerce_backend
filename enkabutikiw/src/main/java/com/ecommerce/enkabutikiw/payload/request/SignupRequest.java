@@ -20,7 +20,6 @@ public class SignupRequest {
   @Size(min = 3, max = 20)
   private String nom;
 
-  @NotBlank
   @Size(max = 20)
   private String telephone;
 
@@ -36,7 +35,6 @@ public class SignupRequest {
 
 
 
-  @NotBlank
   @Size(max = 50)
   @Email
   private String email;

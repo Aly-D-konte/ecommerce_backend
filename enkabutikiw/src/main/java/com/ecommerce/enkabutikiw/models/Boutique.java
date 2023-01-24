@@ -21,7 +21,7 @@ public class Boutique {
     private String description;
     private String adresse;
     private String image;
-    private boolean etat;
+    private boolean etat ;
 
     @ManyToOne
     private User user;

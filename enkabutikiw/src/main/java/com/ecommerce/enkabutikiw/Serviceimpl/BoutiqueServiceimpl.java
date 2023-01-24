@@ -66,4 +66,9 @@ public class BoutiqueServiceimpl implements BoutiqueService {
     public List<Boutique> liste() {
         return boutiqueRepository.findAll();
     }
+
+    @Override
+    public Long nbreBoutique() {
+        return boutiqueRepository.nbreBoutique();
+    }
 }

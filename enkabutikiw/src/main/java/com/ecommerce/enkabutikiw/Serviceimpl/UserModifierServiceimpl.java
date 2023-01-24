@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 
 public class UserModifierServiceimpl implements UserModifierService {
@@ -58,5 +60,10 @@ public class UserModifierServiceimpl implements UserModifierService {
             return message;
 
         }
+    }
+
+    @Override
+    public List<User> liste() {
+        return userRepository.findAll();
     }
 }
