@@ -19,8 +19,10 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/jaime")
+@RequestMapping("/api/jaime")
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+
 public class JaimeController {
 
     @Autowired
