@@ -1,5 +1,6 @@
 package com.ecommerce.enkabutikiw.controllers;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,13 +20,16 @@ import com.ecommerce.enkabutikiw.repository.UserRepository;
 import com.ecommerce.enkabutikiw.security.jwt.JwtUtils;
 import com.ecommerce.enkabutikiw.services.UserDetailsImpl;
 import com.ecommerce.enkabutikiw.services.UserModifierService;
+import com.ecommerce.enkabutikiw.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +37,7 @@ import org.springframework.web.bind.annotation.*;
 import com.ecommerce.enkabutikiw.payload.request.SignupRequest;
 import org.springframework.web.multipart.MultipartFile;
 
-//@CrossOrigin(origins = "http://localhost:4200" , maxAge = 3600, allowCredentials="true")
+@CrossOrigin(origins = "http://localhost:4200" , maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -47,7 +51,14 @@ public class AuthController {
   RoleRepository roleRepository;
 
   @Autowired
-  private UserModifierService userModifierService;
+  UserService  userService;
+
+
+  @Autowired
+  UserModifierService userModifierService;
+  @Autowired
+  BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
   @Autowired
   PasswordEncoder encoder;
@@ -157,6 +168,65 @@ public class AuthController {
     user.setImage(SaveImage.save(file, nomfile));
 
     return userModifierService.ModifierAvatar(user, id);
+
+  }
+
+
+
+  //::::::::::::::::::::::::::::::REINITIALISER PASSWORD::::::::::::::::::::::::::::::::::::::::::://
+
+  @PostMapping("/resetPassword/{email}")
+  public ResponseEntity<String> resetPassword(@PathVariable("email") String email) {
+    User user = userRepository.findByEmail(email);
+    if (user == null) {
+      return new ResponseEntity<String>("Email non fourni", HttpStatus.BAD_REQUEST);
+    }
+    userService.resetPassword(user);
+    return new ResponseEntity<String>("Email envoyé!", HttpStatus.OK);
+  }
+
+  //::::::::::::::::::::::::::::::::::::::::Changer mot de passe:::::::::::::::::::::::::::::::::::::::::::::::://
+
+  @PostMapping("/changePassword")
+  public ResponseEntity<String> changePassword(@RequestBody HashMap<String, String> request) {
+    String emailOrTelephone= request.get("emailOrTelephone");
+    User user = userRepository.findByTelephone(emailOrTelephone);
+
+    if (user == null) {
+      return new ResponseEntity<>("Utilisateur non fourni!", HttpStatus.BAD_REQUEST);
+    }
+    String currentPassword = request.get("currentpassword");
+    String newPassword = request.get("newpassword");
+    String confirmpassword = request.get("confirmpassword");
+    if (!newPassword.equals(confirmpassword)) {
+      return new ResponseEntity<>("PasswordNotMatched", HttpStatus.BAD_REQUEST);
+    }
+    String userPassword = user.getPassword();
+    try {
+      if (newPassword != null && !newPassword.isEmpty() && !StringUtils.isEmpty(newPassword)) {
+        if (bCryptPasswordEncoder.matches(currentPassword, userPassword)) {
+          userService.updateUserPassword(user, newPassword);
+        }
+      } else {
+        return new ResponseEntity<>("IncorrectCurrentPassword", HttpStatus.BAD_REQUEST);
+      }
+      return new ResponseEntity<>("Mot de passe changé avec succès!", HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>("Error Occured: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+  }
+
+
+
+  @PutMapping("/modifieruser/{id}")
+
+  public MessageResponse modifieruser(@RequestBody User user, Long id){
+    return  userModifierService.Modifier(user, id);
+
+  }
+  @GetMapping("/liste")
+  public  List<User> liste(){
+    return userModifierService.liste();
 
   }
 }

@@ -2,7 +2,6 @@ package com.ecommerce.enkabutikiw.controllers;
 
 import com.ecommerce.enkabutikiw.img.SaveImage;
 import com.ecommerce.enkabutikiw.models.Boutique;
-import com.ecommerce.enkabutikiw.models.User;
 import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
 import com.ecommerce.enkabutikiw.repository.BoutiqueRepository;
 import com.ecommerce.enkabutikiw.repository.UserRepository;
@@ -10,7 +9,6 @@ import com.ecommerce.enkabutikiw.services.BoutiqueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,7 +16,9 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/boutique")
+@RequestMapping("/api/boutique")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+
 
 public class BoutiqueController {
 
@@ -30,15 +30,15 @@ public class BoutiqueController {
     @Autowired
     private BoutiqueRepository boutiqueRepository;
 
-    @PostMapping("/ajouter")
-    @PreAuthorize("hasRole('SUPER_ADMIN')")
 
+    //@PreAuthorize("hasRole('SUPER_ADMIN')")
+    @PostMapping("/ajouter")
     public MessageResponse ajoutBoutique(@Param("nom") String nom,
                                          @Param("description") String description,
                                          @Param("adresse") String adresse,
                                          @Param("user_id") Long user_id,
                                         // @PathVariable("user_id") Long user_id,
-                                         @Param("image") String image, @Param("type") boolean etat, @Param("file") MultipartFile file) throws IOException {
+                                         @Param("image") String image, @Param("etat") boolean etat, @Param("file") MultipartFile file) throws IOException {
         Boutique boutique = new Boutique();
      // String nomfile = StringUtils.cleanPath(file.getOriginalFilename()) ;
         boutique.setNom(nom);
@@ -69,7 +69,7 @@ public class BoutiqueController {
 
 
     @GetMapping("/liste")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('SUPER_ADMIN') ")
+  //  @PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('SUPER_ADMIN') ")
 
     public List<Boutique> list(){
         return boutiqueService.liste();
@@ -93,4 +93,21 @@ public class BoutiqueController {
         return boutiqueService.supprimerBoutique(id);
     }
 
+    @GetMapping("/nombre")
+    public Long nbreBoutique() {
+        return boutiqueService.nbreBoutique();
+    }
+
+
+    @PatchMapping("/etat/{id}")
+    public MessageResponse SetEtat(@RequestBody Boutique boutique, @PathVariable("id") Long id){
+        if(this.boutiqueRepository.findById(id) == null){
+
+            MessageResponse message = new MessageResponse("Ferme n'existe pas !");
+            return message;
+        }
+        else{
+            return this.boutiqueService.SetEtat(boutique,id);
+        }
+    }
 }

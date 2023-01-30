@@ -37,7 +37,6 @@ public class User {
   @Size(max = 20)
   private String nom;
 
-  @NotBlank
   @Size(max = 20)
   private String telephone;
 

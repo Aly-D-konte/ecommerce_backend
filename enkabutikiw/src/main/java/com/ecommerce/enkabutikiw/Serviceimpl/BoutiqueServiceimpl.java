@@ -66,4 +66,27 @@ public class BoutiqueServiceimpl implements BoutiqueService {
     public List<Boutique> liste() {
         return boutiqueRepository.findAll();
     }
-}
+
+    @Override
+    public Long nbreBoutique() {
+        return boutiqueRepository.nbreBoutique();
+    }
+
+
+    @Override
+    public MessageResponse SetEtat(Boutique boutique, Long id) {
+        Optional<Boutique> boutique1 = boutiqueRepository.findById(id);
+        if(boutique1.isPresent()){
+            Boutique boutique2 = boutiqueRepository.findById(id).get();
+            boutique2.setEtat(boutique.isEtat());
+            this.boutiqueRepository.save(boutique2);
+            MessageResponse message = new MessageResponse("Etat modifiée avec succès !");
+            return message;
+        }
+        else {
+            MessageResponse message = new MessageResponse("Boutique non modifiés !e");
+            return message;
+
+
+        }
+    }}

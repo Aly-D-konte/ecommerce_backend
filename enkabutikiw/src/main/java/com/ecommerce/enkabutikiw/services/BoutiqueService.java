@@ -10,4 +10,7 @@ public interface BoutiqueService {
     MessageResponse supprimerBoutique(Long id);
     Boutique ModifierBoutique(Boutique boutique, Long id);
     List<Boutique> liste();
+    Long nbreBoutique();
+
+    MessageResponse SetEtat(Boutique boutique, Long id);
 }
