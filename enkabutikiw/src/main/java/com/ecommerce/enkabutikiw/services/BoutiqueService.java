@@ -11,4 +11,6 @@ public interface BoutiqueService {
     Boutique ModifierBoutique(Boutique boutique, Long id);
     List<Boutique> liste();
     Long nbreBoutique();
+
+    MessageResponse SetEtat(Boutique boutique, Long id);
 }

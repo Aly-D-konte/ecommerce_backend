@@ -97,4 +97,17 @@ public class BoutiqueController {
     public Long nbreBoutique() {
         return boutiqueService.nbreBoutique();
     }
+
+
+    @PatchMapping("/etat/{id}")
+    public MessageResponse SetEtat(@RequestBody Boutique boutique, @PathVariable("id") Long id){
+        if(this.boutiqueRepository.findById(id) == null){
+
+            MessageResponse message = new MessageResponse("Ferme n'existe pas !");
+            return message;
+        }
+        else{
+            return this.boutiqueService.SetEtat(boutique,id);
+        }
+    }
 }

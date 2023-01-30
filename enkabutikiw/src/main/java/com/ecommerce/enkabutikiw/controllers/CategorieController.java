@@ -28,7 +28,7 @@ public class CategorieController {
 
 
     @PostMapping("/ajouter")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN') ")
+   // @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN')   ")
 
     public MessageResponse ajoutCategorie(@Param("nom") String nom,
                                           @Param("image") String image,

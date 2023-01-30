@@ -218,13 +218,13 @@ public class AuthController {
 
 
 
-  @PutMapping("modifieruser/{id}")
+  @PutMapping("/modifieruser/{id}")
 
   public MessageResponse modifieruser(@RequestBody User user, Long id){
     return  userModifierService.Modifier(user, id);
 
   }
-  @GetMapping("liste")
+  @GetMapping("/liste")
   public  List<User> liste(){
     return userModifierService.liste();
 
