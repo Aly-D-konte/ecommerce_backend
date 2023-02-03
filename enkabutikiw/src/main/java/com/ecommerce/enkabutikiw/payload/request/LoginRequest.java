@@ -12,10 +12,10 @@ import javax.validation.constraints.NotBlank;
 @ToString
 @NoArgsConstructor
 public class LoginRequest {
-	@NotBlank
+
   private String usernameOrEmail;
 
-	@NotBlank
+
 	private String password;
 
 	public String getUsernameOrEmail() {

@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class SaveImage {
 
-    public static String localhost = "http://127.0.0.1/";
+    public static String localhost = "http://10.0.2.2/";
     public static String serveruser = localhost + "Images/";
 
     public static String Userlocation = "C:/xampp/htdocs/Images/";
