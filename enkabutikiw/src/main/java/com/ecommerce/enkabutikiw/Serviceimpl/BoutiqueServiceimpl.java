@@ -1,7 +1,6 @@
 package com.ecommerce.enkabutikiw.Serviceimpl;
 
 import com.ecommerce.enkabutikiw.models.Boutique;
-import com.ecommerce.enkabutikiw.models.Categorie;
 import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
 import com.ecommerce.enkabutikiw.repository.BoutiqueRepository;
 import com.ecommerce.enkabutikiw.services.BoutiqueService;
@@ -70,6 +69,11 @@ public class BoutiqueServiceimpl implements BoutiqueService {
     @Override
     public Long nbreBoutique() {
         return boutiqueRepository.nbreBoutique();
+    }
+
+    @Override
+    public List<Boutique> AfficherPArEtat( boolean etat) {
+        return boutiqueRepository.findByEtat( etat);
     }
 
 
