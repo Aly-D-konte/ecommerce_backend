@@ -9,10 +9,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class SaveImage {
 
-    public static String localhost = "http://127.0.0.1/";
+    public static String localhost = "http://10.0.2.2/";
     public static String serveruser = localhost + "Images/";
 
-    public static String Userlocation = "C:/xampp/htdocs/Images/";
+    public static String Userlocation = "C:/wamp64/www/images/";
 
     public static String save(MultipartFile file, String nomFichier) {
         String src = "";
@@ -42,7 +42,7 @@ public class SaveImage {
             if (!Files.exists(chemin)) {
                 // si le fichier n'existe pas deja
                 Files.createDirectories(chemin);
-                Files.copy(file.getInputStream(), chemin
+                Files.copy(file.getInputStream(), chemin    &   aa
                         .resolve(nomFichier + file.getOriginalFilename()+file.getOriginalFilename().substring(index).toLowerCase()));
                 src = server + nomFichier
                         + file.getOriginalFilename()+ file.getOriginalFilename().substring(index).toLowerCase();

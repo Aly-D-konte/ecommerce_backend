@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/boutique")
@@ -39,7 +40,7 @@ public class BoutiqueController {
                                          @Param("user_id") Long user_id,
                                         // @PathVariable("user_id") Long user_id,
                                          @Param("image") String image, @Param("etat") boolean etat, @Param("file") MultipartFile file) throws IOException {
-        Boutique boutique = new Boutique();
+        Boutique boutique  = new Boutique();
      // String nomfile = StringUtils.cleanPath(file.getOriginalFilename()) ;
         boutique.setNom(nom);
         boutique.setDescription(description);
@@ -103,11 +104,21 @@ public class BoutiqueController {
     public MessageResponse SetEtat(@RequestBody Boutique boutique, @PathVariable("id") Long id){
         if(this.boutiqueRepository.findById(id) == null){
 
-            MessageResponse message = new MessageResponse("Ferme n'existe pas !");
+            MessageResponse message = new MessageResponse("Boutique n'existe pas !");
             return message;
         }
         else{
             return this.boutiqueService.SetEtat(boutique,id);
         }
+    }
+
+
+    //A
+
+
+    @GetMapping("/{boutique}/{etat}")
+    public List<Boutique> findByEtat(@PathVariable("boutique") Boutique boutique, @PathVariable("etat") boolean etat){
+        return boutiqueService.AfficherPArEtat(etat);
+
     }
 }
