@@ -19,9 +19,10 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
-
 @RequestMapping("/api/produit")
+
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
+
 @AllArgsConstructor
 
 public class ProduitController {
@@ -37,7 +38,7 @@ public class ProduitController {
     private BoutiqueRepository boutiqueRepository;
 
     @PostMapping("/ajouter")
-    @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN')")
+  //  @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN')")
 
     public MessageResponse ajoutProduit(@Param("nom") String nom,
                                         @Param("description") String description,

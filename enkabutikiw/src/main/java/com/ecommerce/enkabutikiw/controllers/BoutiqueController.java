@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/boutique")
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 
 
 public class BoutiqueController {
@@ -78,17 +78,21 @@ public class BoutiqueController {
 
     @PutMapping("/modifier/{id}")
 
-    @PreAuthorize("hasRole('SUPER_ADMIN')")
-
+   // @PreAuthorize("hasRole('SUPER_ADMIN')")
     public Boutique modifierBoutique(@Param("boutique") Boutique boutique, @PathVariable Long id){
         return boutiqueService.ModifierBoutique(boutique, id);
+    }
+    @GetMapping("/getbyid/{boutique}")
+
+    public Boutique getboutq(@PathVariable Boutique boutique){
+        return boutiqueRepository.findById(boutique.getId()).get();
     }
 
 
 
 
     @DeleteMapping("/supprimer/{id}")
-    @PreAuthorize("hasRole('SUPER_ADMIN')")
+   // @PreAuthorize("hasRole('SUPER_ADMIN')")
 
     public MessageResponse supprimerBoutique(@PathVariable("id") Long id){
         return boutiqueService.supprimerBoutique(id);
