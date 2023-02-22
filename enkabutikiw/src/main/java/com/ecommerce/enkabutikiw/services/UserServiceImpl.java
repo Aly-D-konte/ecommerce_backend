@@ -62,4 +62,9 @@ public class UserServiceImpl implements UserService {
     public List<User> liste() {
         return null;
     }
+
+    @Override
+    public User getUserById(Long id) {
+        return null;
+    }
 }

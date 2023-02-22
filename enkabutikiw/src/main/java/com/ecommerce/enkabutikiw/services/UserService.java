@@ -22,4 +22,6 @@ public interface UserService {
     MessageResponse modifier(User user, Long id);
 
     List<User> liste();
+
+    User getUserById(Long id);
 }

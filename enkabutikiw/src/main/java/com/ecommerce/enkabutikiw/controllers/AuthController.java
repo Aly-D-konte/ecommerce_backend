@@ -1,17 +1,12 @@
 package com.ecommerce.enkabutikiw.controllers;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import com.ecommerce.enkabutikiw.img.SaveImage;
-import com.ecommerce.enkabutikiw.models.ERole;
-import com.ecommerce.enkabutikiw.models.Role;
-import com.ecommerce.enkabutikiw.models.User;
+import com.ecommerce.enkabutikiw.models.*;
 import com.ecommerce.enkabutikiw.payload.request.LoginRequest;
 import com.ecommerce.enkabutikiw.payload.response.JwtResponse;
 import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
@@ -229,4 +224,5 @@ public class AuthController {
     return userModifierService.liste();
 
   }
+
 }

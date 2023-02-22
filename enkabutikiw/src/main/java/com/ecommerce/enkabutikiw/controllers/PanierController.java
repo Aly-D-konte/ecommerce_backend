@@ -8,9 +8,11 @@ import com.ecommerce.enkabutikiw.repository.PanierRepository;
 import com.ecommerce.enkabutikiw.repository.ProduitsRepository;
 import com.ecommerce.enkabutikiw.repository.UserRepository;
 import com.ecommerce.enkabutikiw.services.PanierService;
+import com.ecommerce.enkabutikiw.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,6 +32,8 @@ public class PanierController {
     private PanierRepository panierRepository;
     @Autowired
     private ProduitsRepository produitsRepository;
+    @Autowired
+    private UserService userService;
 
 
     //   ICI ON AJOUTE UN PRODUIT AU PANIER
@@ -93,4 +97,17 @@ public class PanierController {
     public List<Panier> list(){
         return panierService.liste();
     }
+
+//    @GetMapping("/ListeP/{id}")
+//    public List<Object>[] liste(@PathVariable("id") Long id){
+//        User us = userRepository.findById(id).get();
+//        return panierRepository.listPanier(us.getId());
+//    }
+    @GetMapping("/PanierParUser/{id}")
+    public List<Panier> UserParPanier(@PathVariable Long id){
+        User us = userRepository.findById(id).get();
+        return panierRepository.findByUser(us);
+    }
+
+
 }

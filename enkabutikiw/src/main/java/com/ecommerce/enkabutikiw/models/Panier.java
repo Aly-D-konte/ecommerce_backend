@@ -23,8 +23,8 @@ public class Panier {
     private Long Totalproduit;
     private Long quantite;
 
-//    @ManyToOne
-//    private User user;
+    @OneToOne
+   private User user;
 
     @ManyToMany(cascade = CascadeType.DETACH)
     private List<Produits> produits = new ArrayList<>();
