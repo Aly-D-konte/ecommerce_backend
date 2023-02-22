@@ -23,7 +23,7 @@ public class Boutique {
     private String description;
     private String adresse;
     private String image;
-    private boolean etat = true;
+    private boolean etat = false;
 
     @ManyToOne
     private User user;

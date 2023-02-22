@@ -3,8 +3,8 @@ package com.ecommerce.enkabutikiw.controllers;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
 
+import com.ecommerce.enkabutikiw.img.Projetimage;
 import com.ecommerce.enkabutikiw.img.SaveImage;
 import com.ecommerce.enkabutikiw.models.*;
 import com.ecommerce.enkabutikiw.payload.request.LoginRequest;
@@ -27,10 +27,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
 
 import com.ecommerce.enkabutikiw.payload.request.SignupRequest;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.Valid;
 
 @CrossOrigin(origins = "http://localhost:4200" , maxAge = 3600, allowCredentials="true")
 @RestController
@@ -160,7 +162,7 @@ public class AuthController {
     User user = new User();
     String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
 
-    user.setImage(SaveImage.save(file, nomfile));
+    user.setImage(Projetimage.save(file, nomfile));
 
     return userModifierService.ModifierAvatar(user, id);
 

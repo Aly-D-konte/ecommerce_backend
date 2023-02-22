@@ -1,7 +1,10 @@
 package com.ecommerce.enkabutikiw.controllers;
 
+import com.ecommerce.enkabutikiw.img.Projetimage;
 import com.ecommerce.enkabutikiw.img.SaveImage;
 import com.ecommerce.enkabutikiw.models.Boutique;
+import com.ecommerce.enkabutikiw.models.Produits;
+import com.ecommerce.enkabutikiw.models.User;
 import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
 import com.ecommerce.enkabutikiw.repository.BoutiqueRepository;
 import com.ecommerce.enkabutikiw.repository.UserRepository;
@@ -18,7 +21,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/boutique")
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 
 
 public class BoutiqueController {
@@ -47,6 +50,7 @@ public class BoutiqueController {
         boutique.setAdresse(adresse);
       //  boutique.setImage(nomfile);
         boutique.setEtat(boutique.isEtat());
+        boutique.setImage(boutique.getImage());
         //boutique.setUser(user_id);
       boutique.setUser(userRepository.findById(user_id).get());
 
@@ -54,7 +58,8 @@ public class BoutiqueController {
 
 //            String uploaDir = "C:\\Users\\adkonte\\Documents\\ecommerce_backend\\enkabutikiw\\src\\test\\Images";
 //           ConfigImage.saveimg(uploaDir, nomfile, file);
-            boutique.setImage(SaveImage.save(file,
+            System.out.println("C'est mon image " +image);
+            boutique.setImage(Projetimage.save(file,
                     file.getOriginalFilename()));
             return boutiqueService.ajoutBoutique(boutique);
 
@@ -78,17 +83,21 @@ public class BoutiqueController {
 
     @PutMapping("/modifier/{id}")
 
-    @PreAuthorize("hasRole('SUPER_ADMIN')")
-
+   // @PreAuthorize("hasRole('SUPER_ADMIN')")
     public Boutique modifierBoutique(@Param("boutique") Boutique boutique, @PathVariable Long id){
         return boutiqueService.ModifierBoutique(boutique, id);
+    }
+    @GetMapping("/getbyid/{boutique}")
+
+    public Boutique getboutq(@PathVariable Boutique boutique){
+        return boutiqueRepository.findById(boutique.getId()).get();
     }
 
 
 
 
     @DeleteMapping("/supprimer/{id}")
-    @PreAuthorize("hasRole('SUPER_ADMIN')")
+   // @PreAuthorize("hasRole('SUPER_ADMIN')")
 
     public MessageResponse supprimerBoutique(@PathVariable("id") Long id){
         return boutiqueService.supprimerBoutique(id);
@@ -119,6 +128,15 @@ public class BoutiqueController {
     @GetMapping("/{boutique}/{etat}")
     public List<Boutique> findByEtat(@PathVariable("boutique") Boutique boutique, @PathVariable("etat") boolean etat){
         return boutiqueService.AfficherPArEtat(etat);
+
+    }
+
+
+    @GetMapping("boutiqueByUser/{id}")
+    @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN') ")
+
+    public List<Boutique> boutiqueByUser(@PathVariable("id") User id){
+        return boutiqueRepository.findByUser(id);
 
     }
 }

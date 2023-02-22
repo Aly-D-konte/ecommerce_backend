@@ -1,6 +1,7 @@
 package com.ecommerce.enkabutikiw.repository;
 
 import com.ecommerce.enkabutikiw.models.Boutique;
+import com.ecommerce.enkabutikiw.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -15,5 +16,6 @@ public interface BoutiqueRepository extends JpaRepository<Boutique, Long> {
     @Query( value ="SELECT COUNT(*) FROM boutique", nativeQuery = true)
     Long nbreBoutique();
     List<Boutique> findByEtat(boolean etat);
+    List<Boutique> findByUser(User user);
 
 }

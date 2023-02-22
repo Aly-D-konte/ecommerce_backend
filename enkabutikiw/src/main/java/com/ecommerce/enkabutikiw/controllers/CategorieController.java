@@ -1,5 +1,6 @@
 package com.ecommerce.enkabutikiw.controllers;
 
+import com.ecommerce.enkabutikiw.img.Projetimage;
 import com.ecommerce.enkabutikiw.img.SaveImage;
 import com.ecommerce.enkabutikiw.models.Categorie;
 import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
@@ -42,7 +43,7 @@ public class CategorieController {
 
 //            String uploaDir = "C:\\Users\\adkonte\\Documents\\ecommerce_backend\\enkabutikiw\\src\\test\\Images";
 //           ConfigImage.saveimg(uploaDir, nomfile, file);
-            categorie.setImage(SaveImage.save(file,file.getOriginalFilename()));
+            categorie.setImage(Projetimage.save(file,file.getOriginalFilename()));
             return categorieService.ajoutCategorie(categorie);
 
         }else {
