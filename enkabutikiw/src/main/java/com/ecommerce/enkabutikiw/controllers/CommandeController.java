@@ -2,6 +2,7 @@ package com.ecommerce.enkabutikiw.controllers;
 
 import com.ecommerce.enkabutikiw.Serviceimpl.UserServiceimpl;
 import com.ecommerce.enkabutikiw.models.Commande;
+import com.ecommerce.enkabutikiw.models.Produits;
 import com.ecommerce.enkabutikiw.models.User;
 import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
 import com.ecommerce.enkabutikiw.repository.CommandeRepository;
@@ -12,6 +13,7 @@ import com.ecommerce.enkabutikiw.services.PanierService;
 import com.ecommerce.enkabutikiw.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -118,4 +120,12 @@ public class CommandeController {
                 return message;
             }
         }
+
+    @GetMapping("CommandeParUser/{id}")
+    //@PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN') ")
+
+    public List<Commande> produitByUser(@PathVariable("id") User id){
+        return commandeRepository.findByUser(id);
+
+    }
 }

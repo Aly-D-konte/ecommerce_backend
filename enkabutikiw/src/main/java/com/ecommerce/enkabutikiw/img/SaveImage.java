@@ -10,10 +10,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class SaveImage {
 
     public static String localhost = "http://127.0.0.1/";
-    public static String serveruser = localhost + "photo/";
+    public static String serveruser = localhost + "Images/";
 
-    public static String Userlocation = "C:/xampp/htdocs/photo";
-    //public static String Userlocation = "C:/xampp/htdocs/Images";
+   // public static String Userlocation = "C:/xampp/htdocs/photo";
+    public static String Userlocation = "C:/xampp/htdocs/Images";
 
     public static String save(MultipartFile file, String nomFichier) {
         String src = "";

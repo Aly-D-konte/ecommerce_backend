@@ -1,5 +1,6 @@
 package com.ecommerce.enkabutikiw.controllers;
 
+import com.ecommerce.enkabutikiw.img.Projetimage;
 import com.ecommerce.enkabutikiw.img.SaveImage;
 import com.ecommerce.enkabutikiw.models.*;
 import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
@@ -73,7 +74,7 @@ public class ProduitController {
 
 //            String uploaDir = "C:\\Users\\adkonte\\Documents\\ecommerce_backend\\enkabutikiw\\src\\test\\Images";
 //           ConfigImage.saveimg(uploaDir, nomfile, file);
-            produit.setImage(SaveImage.save(file,file.getOriginalFilename()));
+            produit.setImage(Projetimage.save(file,file.getOriginalFilename()));
             return produitService.ajoutProduit(produit);
 
         }else {
@@ -101,7 +102,7 @@ public class ProduitController {
 
     @PutMapping("/modifier/{id}")
 
-    @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('SUPER_ADMIN') ")
+    @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN') ")
 
     public Produits modifierProduit(@Param("boutique") Produits produits, @PathVariable Long id){
         return produitService.ModifierProduit(produits, id);
@@ -115,5 +116,14 @@ public class ProduitController {
 
     public MessageResponse supprimerProduits(@PathVariable("id") Long id){
         return produitService.supprimerProduit(id);
+    }
+
+
+    @GetMapping("ProduitParUser/{id}")
+    @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN') ")
+
+    public List<Produits> produitByUser(@PathVariable("id") User id){
+        return produitsRepository.findByUser(id);
+
     }
 }

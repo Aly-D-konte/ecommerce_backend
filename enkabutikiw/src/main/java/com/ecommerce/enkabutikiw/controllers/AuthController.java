@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 
+import com.ecommerce.enkabutikiw.img.Projetimage;
 import com.ecommerce.enkabutikiw.img.SaveImage;
 import com.ecommerce.enkabutikiw.models.ERole;
 import com.ecommerce.enkabutikiw.models.Role;
@@ -166,7 +167,7 @@ public class AuthController {
     User user = new User();
     String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
 
-    user.setImage(SaveImage.save(file, nomfile));
+    user.setImage(Projetimage.save(file, nomfile));
 
     return userModifierService.ModifierAvatar(user, id);
 
