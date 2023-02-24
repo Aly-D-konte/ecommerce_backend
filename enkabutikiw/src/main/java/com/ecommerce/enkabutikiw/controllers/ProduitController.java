@@ -44,29 +44,25 @@ public class ProduitController {
     public MessageResponse ajoutProduit(@Param("nom") String nom,
                                         @Param("description") String description,
                                         @Param("marque") String marque,
-                                        @Param("modele") String modele,
                                         @Param("prix") Long prix,
-                                        @Param("quantite") Long quantite,
-                                        @Param("capacite") String capacite,
-                                        @Param("type") String type,
-                                        @Param("categorie_id") Categorie categorie_id,
-                                        @Param("user_id") long user_id,
-                                        @Param("boutique_id") long boutique_id,
+                                        @Param("quantite_disponible") Long quantite_disponible,
+                                        @Param("type_produit") Long type_produit,
+                                        @Param("categorie_id") Long categorie_id,
+                                        @Param("user_id") Long user_id,
+                                        @Param("boutique_id") Long boutique_id,
                                         @Param("file") MultipartFile file) throws IOException {
         Produits produit = new Produits();
         String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
         produit.setNom(nom);
         produit.setDescription(description);
-        produit.setModele(modele);
         produit.setMarque(marque);
-        produit.setCapacite(capacite);
-        produit.setQuantite_disponible(quantite);
+        produit.setQuantite_disponible(quantite_disponible);
         produit.setPrix(prix);
         produit.getBoutiques().add(boutiqueRepository.findById(boutique_id).get());
+        produit.setType_produit(produit.getType_produit());
         //produit.setBoutiques(produit.getBoutiques());
         //     produits.setImage(nomfile);
-        produit.setType(type);
-        produit.setCategorie(categorie_id);
+        produit.setCategorie(produit.getCategorie());
         // produit.setUser(userRepository.findById(1L).get());
 
         produit.setUser(userRepository.findById(user_id).get());
@@ -93,7 +89,7 @@ public class ProduitController {
     }
 
     @GetMapping("/afficher/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('SUPER_ADMIN') ")
+    //@PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('SUPER_ADMIN') ")
 
     public Produits getProductById(@PathVariable("id") Long id) {
         return produitService.findById(id);
@@ -112,7 +108,7 @@ public class ProduitController {
 
 
     @DeleteMapping("/supprimer/{id}")
-    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    //@PreAuthorize("hasRole('SUPER_ADMIN')")
 
     public MessageResponse supprimerProduits(@PathVariable("id") Long id){
         return produitService.supprimerProduit(id);
@@ -120,7 +116,7 @@ public class ProduitController {
 
 
     @GetMapping("ProduitParUser/{id}")
-    @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN') ")
+   // @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN') ")
 
     public List<Produits> produitByUser(@PathVariable("id") User id){
         return produitsRepository.findByUser(id);
