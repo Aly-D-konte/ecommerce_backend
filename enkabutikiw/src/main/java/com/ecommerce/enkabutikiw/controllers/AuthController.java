@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 
 import com.ecommerce.enkabutikiw.img.Projetimage;
-import com.ecommerce.enkabutikiw.img.SaveImage;
 import com.ecommerce.enkabutikiw.models.*;
 import com.ecommerce.enkabutikiw.payload.request.LoginRequest;
 import com.ecommerce.enkabutikiw.payload.response.JwtResponse;
@@ -27,7 +26,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
-
 import com.ecommerce.enkabutikiw.payload.request.SignupRequest;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -81,6 +79,8 @@ public class AuthController {
                          userDetails.getId(), 
                          userDetails.getUsername(), 
                          userDetails.getEmail(),
+                         userDetails.getNom(),
+                         userDetails.getPrenom(),
                          roles));
   }
 
@@ -226,5 +226,7 @@ public class AuthController {
     return userModifierService.liste();
 
   }
+
+
 
 }

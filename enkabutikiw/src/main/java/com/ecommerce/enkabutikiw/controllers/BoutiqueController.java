@@ -50,8 +50,8 @@ public class BoutiqueController {
         boutique.setAdresse(adresse);
       //  boutique.setImage(nomfile);
         boutique.setEtat(boutique.isEtat());
-        boutique.setImage(boutique.getImage());
-        //boutique.setUser(user_id);
+
+        //boutique.setUser(user_id);boutique.setImage(boutique.getImage());
       boutique.setUser(userRepository.findById(user_id).get());
 
         if (boutiqueRepository.findByNom(nom) == null){

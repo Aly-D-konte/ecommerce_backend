@@ -24,7 +24,7 @@ public class Panier {
     private Long quantite;
 
     @OneToOne
-   private User user;
+    private User user;
 
     @ManyToMany(cascade = CascadeType.DETACH)
     private List<Produits> produits = new ArrayList<>();
