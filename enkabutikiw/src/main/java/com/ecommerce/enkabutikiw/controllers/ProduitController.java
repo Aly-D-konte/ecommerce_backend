@@ -4,9 +4,7 @@ import com.ecommerce.enkabutikiw.img.Projetimage;
 import com.ecommerce.enkabutikiw.img.SaveImage;
 import com.ecommerce.enkabutikiw.models.*;
 import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
-import com.ecommerce.enkabutikiw.repository.BoutiqueRepository;
-import com.ecommerce.enkabutikiw.repository.ProduitsRepository;
-import com.ecommerce.enkabutikiw.repository.UserRepository;
+import com.ecommerce.enkabutikiw.repository.*;
 import com.ecommerce.enkabutikiw.services.ProduitService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +30,17 @@ public class ProduitController {
     private final ProduitService produitService;
 
     @Autowired
+    private  final  TypeProduitRepository typeProduitRepository;
+
+    @Autowired
     private final ProduitsRepository produitsRepository;
     @Autowired
     private final UserRepository userRepository;
     @Autowired
     private BoutiqueRepository boutiqueRepository;
+    @Autowired
+    private CategorieRepository categorieRepository;
+
 
     @PostMapping("/ajouter")
   //  @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN')")
@@ -59,10 +63,12 @@ public class ProduitController {
         produit.setQuantite_disponible(quantite_disponible);
         produit.setPrix(prix);
         produit.getBoutiques().add(boutiqueRepository.findById(boutique_id).get());
-        produit.setType_produit(produit.getType_produit());
+        produit.setType_produit(typeProduitRepository.findById(type_produit).get());
+        produit.setCategorie(categorieRepository.findById(categorie_id).get());
+
         //produit.setBoutiques(produit.getBoutiques());
         //     produits.setImage(nomfile);
-        produit.setCategorie(produit.getCategorie());
+        //produit.setCategorie(categorie_id);
         // produit.setUser(userRepository.findById(1L).get());
 
         produit.setUser(userRepository.findById(user_id).get());

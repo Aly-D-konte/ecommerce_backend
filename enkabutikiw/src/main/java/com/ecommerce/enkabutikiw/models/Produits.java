@@ -29,6 +29,8 @@ public class Produits {
     private Long quantite_disponible;
 
 
+    @JsonIgnore
+
     @ManyToOne
     private Type_produit type_produit;
 
