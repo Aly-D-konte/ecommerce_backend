@@ -37,14 +37,17 @@ public class PanierController {
 
 
     //   ICI ON AJOUTE UN PRODUIT AU PANIER
-    @PostMapping("/ajouter/{produit}")
-    public MessageResponse AjouterPanier(@RequestBody Panier panier, @PathVariable("produit") Produits produit) {
+    @PostMapping("/ajouter/{produit}/{id}")
+    public MessageResponse AjouterPanier(@RequestBody Panier panier, @PathVariable("produit") Produits produit, @PathVariable Long id) {
 
 
+        User us = userRepository.findById(id).get();
             Long Qte =  (panier.getQuantite());
            // panier.setUser(user);
             panier.setQuantite(panier.getQuantite());
-            panier.setTotalproduit((produit.getPrix()) * panier.getQuantite());
+            panier.setUser(us);
+
+        panier.setTotalproduit((produit.getPrix()) * panier.getQuantite());
             panier.getProduits().add(produit);
      //   MessageResponse message = new MessageResponse("Impossible d'ajouté au panier");
 

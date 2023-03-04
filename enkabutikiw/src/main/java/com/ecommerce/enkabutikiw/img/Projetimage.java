@@ -9,9 +9,9 @@ import java.nio.file.Paths;
 
 public class Projetimage {
     public static String localhost = "http://127.0.0.1/";
-    public static String serveruser = localhost + "photo/";
+    public static String serveruser = localhost + "images/";
 
-    public static String userLocation = "C:/xampp/htdocs/photo/";
+    public static String userLocation = "C:/wamp64/www/images/";
 
     public static String save(MultipartFile file, String fileName) {
         String src = "";
