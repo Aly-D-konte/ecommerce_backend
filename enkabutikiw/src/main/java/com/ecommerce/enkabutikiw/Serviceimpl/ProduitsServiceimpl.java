@@ -64,11 +64,11 @@ public class ProduitsServiceimpl implements ProduitService {
         modifierProduit.setNom(produit.getNom());
         modifierProduit.setDescription(produit.getDescription());
         modifierProduit.setCategorie(produit.getCategorie());
-        modifierProduit.setType(produit.getType());
+       // modifierProduit.setType(produit.getType());
         modifierProduit.setImage(produit.getImage());
-        modifierProduit.setCapacite(produit.getCapacite());
+
         modifierProduit.setMarque(produit.getMarque());
-        modifierProduit.setModele(produit.getModele());
+
         modifierProduit.setUser(produit.getUser());
         modifierProduit.setPrix(produit.getPrix());
         return produitsRepository.saveAndFlush(modifierProduit);    }

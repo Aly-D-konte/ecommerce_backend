@@ -24,11 +24,15 @@ public class Produits {
     private String description;
     private String marque;
     private Long prix;
-    private String modele;
-    private String capacite;
+
     private String image;
     private Long quantite_disponible;
-    private String type;
+
+
+    @JsonIgnore
+
+    @ManyToOne
+    private Type_produit type_produit;
 
     //Mapping
     @JsonIgnore
