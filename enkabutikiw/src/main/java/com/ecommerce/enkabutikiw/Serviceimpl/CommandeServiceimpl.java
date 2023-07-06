@@ -3,6 +3,7 @@ package com.ecommerce.enkabutikiw.Serviceimpl;
 import com.ecommerce.enkabutikiw.models.Commande;
 import com.ecommerce.enkabutikiw.models.Panier;
 import com.ecommerce.enkabutikiw.models.Produits;
+import com.ecommerce.enkabutikiw.models.Statut;
 import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
 import com.ecommerce.enkabutikiw.repository.CategorieRepository;
 import com.ecommerce.enkabutikiw.repository.CommandeRepository;
@@ -79,6 +80,33 @@ public class CommandeServiceimpl implements CommandeService {
     public List<Commande> liste() {
         return commandeRepository.findAll();
     }
+
+    @Override
+    public Commande commandeencours(Long idCommande) {
+        Commande commande = commandeRepository.findByIdCommande(idCommande);
+        commande.setStatut(Statut.ENCOURS);
+        return commandeRepository.save(commande);
+    }
+
+    @Override
+    public Commande commandelivrer(Long idCommande) {
+        Commande commande = commandeRepository.findByIdCommande(idCommande);
+        commande.setStatut(Statut.LIVRER);
+        return commandeRepository.save(commande);
+    }
+
+    @Override
+    public Commande commandeannuler(Long idCommande) {
+        Commande commande = commandeRepository.findByIdCommande(idCommande);
+        commande.setStatut(Statut.ANNULER);
+        return commandeRepository.save(commande);
+    }
+
+    @Override
+    public List<Object> voirStatut(Statut statut) {
+        return commandeRepository.findByStatut(statut);
+    }
+
 
     @Override
     public Commande findByCode(String code) {

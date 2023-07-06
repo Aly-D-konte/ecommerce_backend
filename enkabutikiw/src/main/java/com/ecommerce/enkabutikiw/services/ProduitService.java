@@ -1,5 +1,6 @@
 package com.ecommerce.enkabutikiw.services;
 
+import com.ecommerce.enkabutikiw.DTO.produit.ProduitResponse;
 import com.ecommerce.enkabutikiw.models.Boutique;
 import com.ecommerce.enkabutikiw.models.Produits;
 import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
@@ -12,6 +13,7 @@ public interface ProduitService {
 
     Produits findById(Long id);
 
-    Produits ModifierProduit(Produits produit, Long id);
-    List<Produits> liste();
+    ProduitResponse ModifierProduit(Produits produit, Long id);
+    List<ProduitResponse> mapToProduitListe();
+    ProduitResponse mapToProduit(Produits produits);
 }

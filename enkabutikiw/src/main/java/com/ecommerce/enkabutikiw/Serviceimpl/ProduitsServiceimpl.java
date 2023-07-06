@@ -1,5 +1,7 @@
 package com.ecommerce.enkabutikiw.Serviceimpl;
 
+import com.ecommerce.enkabutikiw.DTO.boutique.BoutiqueResponse;
+import com.ecommerce.enkabutikiw.DTO.produit.ProduitResponse;
 import com.ecommerce.enkabutikiw.models.Boutique;
 import com.ecommerce.enkabutikiw.models.Produits;
 import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
@@ -10,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -57,7 +60,7 @@ public class ProduitsServiceimpl implements ProduitService {
     }
 
     @Override
-    public Produits ModifierProduit(Produits produit, Long id) {
+    public ProduitResponse ModifierProduit(Produits produit, Long id) {
 
 
         Produits modifierProduit = produitsRepository.findById(id).get();
@@ -69,12 +72,45 @@ public class ProduitsServiceimpl implements ProduitService {
 
         modifierProduit.setMarque(produit.getMarque());
 
-        modifierProduit.setUser(produit.getUser());
+//        modifierProduit.setUser(produit.getUser());
         modifierProduit.setPrix(produit.getPrix());
-        return produitsRepository.saveAndFlush(modifierProduit);    }
+        return this.mapToProduit(modifierProduit);
+    }
+
+
 
     @Override
-    public List<Produits> liste() {
-        return produitsRepository.findAll();
+    public List<ProduitResponse> mapToProduitListe() {
+        return null;
+    }
+
+    public List<ProduitResponse> mapToProduitListe( List<Produits> produitsList) {
+
+        List<ProduitResponse> ProduitResponseList = new ArrayList<>();
+        for (Produits produits: produitsList){
+            ProduitResponseList.add(this.mapToProduit(produits));
+        }
+        return ProduitResponseList;
+    }
+
+//    @Override
+//    public List<Produits> liste() {
+//        return produitsRepository.findAll();
+//    }
+
+    @Override
+    public ProduitResponse mapToProduit(Produits produits) {
+
+        return ProduitResponse.builder()
+                .id(produits.getId())
+                .nom(produits.getNom())
+                .description(produits.getDescription())
+                .categorie(produits.getCategorie())
+                .image(produits.getImage())
+                .imageDas(produits.getImageDas())
+                .prix(produits.getPrix())
+                .marque(produits.getMarque())
+                .type_produit(produits.getType_produit())
+                .build();
     }
 }

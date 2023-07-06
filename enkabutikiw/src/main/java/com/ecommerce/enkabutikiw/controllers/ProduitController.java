@@ -1,5 +1,7 @@
 package com.ecommerce.enkabutikiw.controllers;
 
+import com.ecommerce.enkabutikiw.DTO.produit.ProduitResponse;
+import com.ecommerce.enkabutikiw.img.ConfigImage;
 import com.ecommerce.enkabutikiw.img.Projetimage;
 import com.ecommerce.enkabutikiw.img.SaveImage;
 import com.ecommerce.enkabutikiw.models.*;
@@ -51,12 +53,12 @@ public class ProduitController {
                                         @Param("prix") Long prix,
                                         @Param("quantite_disponible") Long quantite_disponible,
                                         @Param("type_produit") Long type_produit,
-                                        @Param("categorie_id") Long categorie_id,
+                                        @Param("categorie") Long categorie,
                                         @Param("user_id") Long user_id,
                                         @Param("boutique_id") Long boutique_id,
-                                        @Param("file") MultipartFile file) throws IOException {
+                                        @Param("image") MultipartFile image) throws IOException {
         Produits produit = new Produits();
-        String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
+        String nomfile = StringUtils.cleanPath(image.getOriginalFilename());
         produit.setNom(nom);
         produit.setDescription(description);
         produit.setMarque(marque);
@@ -64,19 +66,23 @@ public class ProduitController {
         produit.setPrix(prix);
         produit.getBoutiques().add(boutiqueRepository.findById(boutique_id).get());
         produit.setType_produit(typeProduitRepository.findById(type_produit).get());
-        produit.setCategorie(categorieRepository.findById(categorie_id).get());
-
+        produit.setCategorie(categorieRepository.findById(categorie).get());
         //produit.setBoutiques(produit.getBoutiques());
-        //     produits.setImage(nomfile);
+        produit.setImage(nomfile);
         //produit.setCategorie(categorie_id);
         // produit.setUser(userRepository.findById(1L).get());
-
-        produit.setUser(userRepository.findById(user_id).get());
+        produit.setImageDas(nomfile);
+      //  produit.setUser(userRepository.findById(user_id).get());
         if (produitsRepository.findByNom(nom) == null){
+
+            String uploaDir = "C:\\Users\\sadjo\\OneDrive\\Bureau\\ODK\\flutter_enkabutikiw\\flutter_frontend\\assets\\Produit";
+            ConfigImage.saveimg(uploaDir, nomfile, image);
 
 //            String uploaDir = "C:\\Users\\adkonte\\Documents\\ecommerce_backend\\enkabutikiw\\src\\test\\Images";
 //           ConfigImage.saveimg(uploaDir, nomfile, file);
-            produit.setImage(Projetimage.save(file,file.getOriginalFilename()));
+            //produit.setImage(Projetimage.save(file,file.getOriginalFilename()));
+           produit.setImageDas(Projetimage.save(image,image.getOriginalFilename()));
+
             return produitService.ajoutProduit(produit);
 
         }else {
@@ -90,8 +96,8 @@ public class ProduitController {
     @GetMapping("/liste")
    // @PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('SUPER_ADMIN')    ")
 
-    public List<Produits> list(){
-        return produitService.liste();
+    public List<ProduitResponse> list(){
+        return produitService.mapToProduitListe();
     }
 
     @GetMapping("/afficher/{id}")
@@ -104,9 +110,9 @@ public class ProduitController {
 
     @PutMapping("/modifier/{id}")
 
-    @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN') ")
+  //  @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN') ")
 
-    public Produits modifierProduit(@Param("boutique") Produits produits, @PathVariable Long id){
+    public ProduitResponse modifierProduit(@Param("boutique") Produits produits, @PathVariable Long id){
         return produitService.ModifierProduit(produits, id);
     }
 
@@ -121,11 +127,19 @@ public class ProduitController {
     }
 
 
-    @GetMapping("ProduitParUser/{id}")
-   // @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN') ")
+//    @GetMapping("ProduitParUser/{id}")
+//   // @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN') ")
+//
+//    public List<Produits> produitByUser(@PathVariable("id") User id){
+//        return produitsRepository.findByUser(id);
+//
+//    }
 
-    public List<Produits> produitByUser(@PathVariable("id") User id){
-        return produitsRepository.findByUser(id);
-
-    }
+//    @GetMapping("ProduitParType/{id}")
+//    // @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN') ")
+//
+//    public List<Produits> produitByType(@PathVariable("id") Categorie id){
+        //        return produitsRepository.findByCategorie(id);
+//
+//    }
 }

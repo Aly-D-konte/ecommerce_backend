@@ -1,5 +1,7 @@
 package com.ecommerce.enkabutikiw.controllers;
 
+import com.ecommerce.enkabutikiw.DTO.boutique.BoutiqueResponse;
+import com.ecommerce.enkabutikiw.img.ConfigImage;
 import com.ecommerce.enkabutikiw.img.Projetimage;
 import com.ecommerce.enkabutikiw.img.SaveImage;
 import com.ecommerce.enkabutikiw.models.Boutique;
@@ -12,6 +14,7 @@ import com.ecommerce.enkabutikiw.services.BoutiqueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,13 +45,14 @@ public class BoutiqueController {
                                          @Param("adresse") String adresse,
                                          @Param("user_id") Long user_id,
                                         // @PathVariable("user_id") Long user_id,
-                                         @Param("image") String image, @Param("etat") boolean etat, @Param("file") MultipartFile file) throws IOException {
+                                         @Param("image") MultipartFile image ) throws IOException {
         Boutique boutique  = new Boutique();
-     // String nomfile = StringUtils.cleanPath(file.getOriginalFilename()) ;
+        String nomfile = StringUtils.cleanPath(image.getOriginalFilename()) ;
         boutique.setNom(nom);
         boutique.setDescription(description);
         boutique.setAdresse(adresse);
-      //  boutique.setImage(nomfile);
+        boutique.setImage(nomfile);
+        boutique.setImageDas(nomfile);
         boutique.setEtat(boutique.isEtat());
 
         //boutique.setUser(user_id);boutique.setImage(boutique.getImage());
@@ -56,11 +60,11 @@ public class BoutiqueController {
 
         if (boutiqueRepository.findByNom(nom) == null){
 
-//            String uploaDir = "C:\\Users\\adkonte\\Documents\\ecommerce_backend\\enkabutikiw\\src\\test\\Images";
-//           ConfigImage.saveimg(uploaDir, nomfile, file);
-            System.out.println("C'est mon image " +image);
-            boutique.setImage(Projetimage.save(file,
-                    file.getOriginalFilename()));
+            String uploaDir = "C:\\Users\\sadjo\\OneDrive\\Bureau\\ODK\\flutter_enkabutikiw\\flutter_frontend\\assets\\images";
+          ConfigImage.saveimg(uploaDir, nomfile, image);
+           // System.out.println("C'est mon image " +uploaDir);
+
+            boutique.setImageDas(Projetimage.save(image,image.getOriginalFilename()));
             return boutiqueService.ajoutBoutique(boutique);
 
         }else {
@@ -77,21 +81,23 @@ public class BoutiqueController {
     @GetMapping("/liste")
   //  @PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('SUPER_ADMIN') ")
 
-    public List<Boutique> list(){
-        return boutiqueService.liste();
+    public List<BoutiqueResponse> list(List<Boutique> boutiqueList){
+        return boutiqueService.mapToBoutique(boutiqueList);
     }
 
     @PutMapping("/modifier/{id}")
 
    // @PreAuthorize("hasRole('SUPER_ADMIN')")
-    public Boutique modifierBoutique(@Param("boutique") Boutique boutique, @PathVariable Long id){
+    public BoutiqueResponse modifierBoutique(@Param("boutique") Boutique boutique, @PathVariable Long id){
         return boutiqueService.ModifierBoutique(boutique, id);
     }
     @GetMapping("/getbyid/{boutique}")
 
-    public Boutique getboutq(@PathVariable Boutique boutique){
+    public Boutique
+    getboutq(@PathVariable Boutique boutique){
         return boutiqueRepository.findById(boutique.getId()).get();
     }
+
 
 
 

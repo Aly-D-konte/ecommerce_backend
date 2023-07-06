@@ -1,5 +1,7 @@
 package com.ecommerce.enkabutikiw.services;
 
+import com.ecommerce.enkabutikiw.DTO.panier.PanierResponse;
+import com.ecommerce.enkabutikiw.DTO.produit.ProduitResponse;
 import com.ecommerce.enkabutikiw.models.Panier;
 import com.ecommerce.enkabutikiw.models.Produits;
 import com.ecommerce.enkabutikiw.models.User;
@@ -15,6 +17,7 @@ public interface PanierService {
     MessageResponse validerpanier();
     MessageResponse cleanPanier(Panier id);
 
-    List<Panier> liste();
+    List<PanierResponse> mapToPanierList(List<Panier> panierList);
+    PanierResponse mapToPanier(Panier panier);
 
 }

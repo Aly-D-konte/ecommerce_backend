@@ -4,6 +4,7 @@ import com.ecommerce.enkabutikiw.models.ERole;
 import com.ecommerce.enkabutikiw.models.Role;
 import com.ecommerce.enkabutikiw.models.User;
 import com.ecommerce.enkabutikiw.repository.RoleRepository;
+import com.ecommerce.enkabutikiw.repository.TypeProduitRepository;
 import com.ecommerce.enkabutikiw.repository.UserRepository;
 import com.ecommerce.enkabutikiw.services.EmailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class SpringBootEcommerceApplication implements  CommandLineRunner{
 	RoleRepository roleRepository;
 
 	@Autowired
+	TypeProduitRepository typeProduitRepository;
+
+	@Autowired
 	EmailSenderService emailSenderService;
 
 	@Autowired
@@ -40,12 +44,15 @@ public class SpringBootEcommerceApplication implements  CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 
+
 		if (roleRepository.findAll().size() == 0) {
 			roleRepository.createRole();
 
+		}
+		if (typeProduitRepository.findAll().size() == 0){
+			typeProduitRepository.createTypeProduit();
 
 		}
-
 
 
        //Pour envoyer plusieurs mails

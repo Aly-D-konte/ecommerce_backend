@@ -1,5 +1,6 @@
 package com.ecommerce.enkabutikiw.Serviceimpl;
 
+import com.ecommerce.enkabutikiw.DTO.boutique.BoutiqueResponse;
 import com.ecommerce.enkabutikiw.models.Boutique;
 import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
 import com.ecommerce.enkabutikiw.repository.BoutiqueRepository;
@@ -8,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +38,7 @@ public class BoutiqueServiceimpl implements BoutiqueService {
 
         Optional<Boutique> boutique = this.boutiqueRepository.findById(id);
         if (!boutique.isPresent()){
-            MessageResponse message = new MessageResponse(" Categorie non trouvée ");
+            MessageResponse message = new MessageResponse(" Boutique non trouvée ");
             return message;
 
         }else {
@@ -51,19 +53,30 @@ public class BoutiqueServiceimpl implements BoutiqueService {
 
 
     @Override
-    public Boutique ModifierBoutique(Boutique boutique, Long id) {
+    public BoutiqueResponse ModifierBoutique(Boutique boutique, Long id) {
         Boutique modifierBoutique = boutiqueRepository.findById(id).get();
         modifierBoutique.setNom(boutique.getNom());
         modifierBoutique.setDescription(boutique.getDescription());
         modifierBoutique.setAdresse(boutique.getAdresse());
         modifierBoutique.setEtat(boutique.isEtat());
         modifierBoutique.setImage(boutique.getImage());
-        return boutiqueRepository.saveAndFlush(modifierBoutique);
+        modifierBoutique = boutiqueRepository.saveAndFlush(modifierBoutique);
+        return this.mapToBoutique(modifierBoutique);
     }
 
+//    @Override
+//    public List<Boutique> liste() {
+//        return boutiqueRepository.findAll();
+//    }
+
     @Override
-    public List<Boutique> liste() {
-        return boutiqueRepository.findAll();
+    public List<BoutiqueResponse> mapToBoutique( List<Boutique> boutiqueList) {
+
+        List<BoutiqueResponse> BoutiqueResponseList = new ArrayList<>();
+        for (Boutique boutique: boutiqueList){
+            BoutiqueResponseList.add(this.mapToBoutique(boutique));
+        }
+        return BoutiqueResponseList;
     }
 
     @Override
@@ -93,4 +106,21 @@ public class BoutiqueServiceimpl implements BoutiqueService {
 
 
         }
-    }}
+    }
+
+
+    @Override
+    public BoutiqueResponse mapToBoutique(Boutique boutique) {
+
+        return BoutiqueResponse.builder()
+                .id(boutique.getId())
+                .nom(boutique.getNom())
+                .description(boutique.getDescription())
+                .adresse(boutique.getAdresse())
+                .image(boutique.getImage())
+                .imageDas(boutique.getImageDas())
+                .etat(boutique.isEtat())
+                .user(boutique.getUser())
+                .build();
+    }
+}

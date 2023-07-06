@@ -2,6 +2,7 @@ package com.ecommerce.enkabutikiw.repository;
 
 import com.ecommerce.enkabutikiw.models.Categorie;
 import com.ecommerce.enkabutikiw.models.Produits;
+import com.ecommerce.enkabutikiw.models.Type_produit;
 import com.ecommerce.enkabutikiw.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,8 @@ public interface ProduitsRepository extends JpaRepository<Produits, Long> {
     Produits findByNom(String nom);
 
     Optional<Produits> findById(Long id);
-    List<Produits> findByUser(User user);
+    //List<Produits> findByUser(User user);
+   // List<Produits> findByType_produit(Type_produit type_produit);
+    //List<Produits> findByCategorie(Categorie categorie);
 
 }

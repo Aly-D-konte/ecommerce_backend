@@ -1,13 +1,11 @@
-package com.ecommerce.enkabutikiw.models;
+package com.prodevma.immodev.models;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table
@@ -24,10 +22,7 @@ public class Boutique {
     private String adresse;
     private String image;
     private boolean etat = false;
-
     @ManyToOne
     private User user;
-
-
 
 }

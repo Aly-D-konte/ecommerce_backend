@@ -1,5 +1,6 @@
 package com.ecommerce.enkabutikiw.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class Type_produit {
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
+    @JsonIgnore
     @OneToMany(mappedBy = "type_produit")
     private List<Produits> Listproduits = new ArrayList<>();
 

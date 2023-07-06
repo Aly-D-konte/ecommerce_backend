@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 
+import com.ecommerce.enkabutikiw.img.ConfigImage;
 import com.ecommerce.enkabutikiw.img.Projetimage;
 import com.ecommerce.enkabutikiw.models.*;
 import com.ecommerce.enkabutikiw.payload.request.LoginRequest;
@@ -81,11 +82,16 @@ public class AuthController {
                          userDetails.getEmail(),
                          userDetails.getNom(),
                          userDetails.getPrenom(),
-                         roles));
+            userDetails.getTelephone(),
+            userDetails.getAdresse(),
+            userDetails.getImage(),
+
+            roles));
   }
 
   @PostMapping("/signup")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+
     if (userRepository.existsByUsername(signUpRequest.getUsername())) {
       return ResponseEntity
           .badRequest()
@@ -148,8 +154,13 @@ public class AuthController {
         }
       });
     }
+    //String nomfile = StringUtils.cleanPath(signUpRequest.setImage(signUpRequest.).getOriginalFilename()) ;
+
 
     user.setRoles(roles);
+  //  String uploaDir = "C:\\Users\\sadjo\\OneDrive\\Bureau\\ODK\\flutter_enkabutikiw\\flutter_frontend\\assets\\images";
+   // ConfigImage.saveimg(uploaDir, nomfile, image);
+
     user.setImage("http://127.0.0.1/Images/avatar.jpg");
     userRepository.save(user);
 

@@ -32,7 +32,7 @@ public class EmailConstructor {
                 MimeMessageHelper email = new MimeMessageHelper(mimeMessage);
                 email.setPriority(1);
                 email.setTo(user.getEmail());
-                email.setSubject("Bienvenue dans l'Application Akilina");
+                email.setSubject("Bienvenue dans l'Application enkabutikiw");
                 email.setText(text, true);
                 email.setFrom(new InternetAddress(env.getProperty("support.email")));
             }

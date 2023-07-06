@@ -1,5 +1,6 @@
 package com.ecommerce.enkabutikiw.Serviceimpl;
 
+import com.ecommerce.enkabutikiw.DTO.panier.PanierResponse;
 import com.ecommerce.enkabutikiw.models.Panier;
 import com.ecommerce.enkabutikiw.models.Produits;
 import com.ecommerce.enkabutikiw.models.User;
@@ -10,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,24 +23,26 @@ public class PanierServiceimpl implements PanierService {
     private final PanierRepository panierRepository;
     @Override
     public MessageResponse ajoutPanier(Panier panier, Produits produits) {
-        Panier  panier2 = panierRepository.findByProduits(produits);
-        Boolean panier3 = panierRepository.existsByProduits(produits);
-
-        if(!panier3){
-          //  panier.setProduits((List<Produits>) produits.getUser());
-            panier.setQuantite(panier.getQuantite());
-            panier.setTotalproduit((produits.getPrix()));
-            panierRepository.save(panier);
-            MessageResponse message = new MessageResponse("Produit ajouté au panier");
-            return message;
-        }
-        else {
-            panier2.setTotalproduit(panier2.getTotalproduit() + (produits.getPrix()*panier.getQuantite()));
-            panier2.setQuantite(panier2.getQuantite() + panier.getQuantite());
-            panierRepository.save(panier2);
-            MessageResponse message = new MessageResponse("Quantité modifiée avec succès");
-            return message;
-        }
+//        Panier  panier2 = panierRepository.findByProduits(produits);
+//        Boolean panier3 = panierRepository.existsByProduits(produits);
+//
+//        if(!panier3){
+//          //  panier.setProduits((List<Produits>) produits.getUser());
+//            panier.setQuantite(panier.getQuantite());
+//            panier.setTotalproduit((produits.getPrix()));
+//            panierRepository.save(panier);
+//            MessageResponse message = new MessageResponse("Produit ajouté au panier");
+//            return message;
+//        }
+//        else {
+//            panier2.setTotalproduit(panier2.getTotalproduit() + (produits.getPrix()*panier.getQuantite()));
+//            panier2.setQuantite(panier2.getQuantite() + panier.getQuantite());
+//            panierRepository.save(panier2);
+//            MessageResponse message = new MessageResponse("Quantité modifiée avec succès");
+//            return message;
+//        }
+        MessageResponse message = new MessageResponse("Produit ajouté au panier");
+        return message;
     }
 
 
@@ -65,9 +69,27 @@ public class PanierServiceimpl implements PanierService {
     }
 
     @Override
-    public List<Panier> liste() {
-        return panierRepository.findAll();
+    public List<PanierResponse> mapToPanierList( List<Panier> panierList) {
+
+        List<PanierResponse> PanierResponseList = new ArrayList<>();
+        for (Panier panier: panierList){
+            PanierResponseList.add(this.mapToPanier(panier));
+        }
+        return PanierResponseList;
     }
 
+
+
+    @Override
+    public PanierResponse mapToPanier(Panier panier) {
+
+        return PanierResponse.builder()
+                .id(panier.getId())
+                .quantite(panier.getQuantite())
+                .Totalproduit(panier.getTotalproduit())
+                .produits(panier.getProduits())
+
+                .build();
+    }
 
 }

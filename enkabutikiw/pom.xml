@@ -91,7 +91,6 @@
 
 
 
-
 		<!-- Spring Security OAuth2 -->
 		<dependency>
 			<groupId>org.springframework.security.oauth</groupId>

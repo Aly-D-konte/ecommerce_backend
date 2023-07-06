@@ -26,21 +26,20 @@ public class Produits {
     private Long prix;
 
     private String image;
+    private String imageDas;
+
     private Long quantite_disponible;
 
 
-    @JsonIgnore
-
+    //@JsonIgnore
     @ManyToOne
     private Type_produit type_produit;
 
     //Mapping
-    @JsonIgnore
+   // @JsonIgnore
     @ManyToOne
     private Categorie categorie;
 
-    @ManyToOne
-    private User user;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(  name = "produits_boutique",

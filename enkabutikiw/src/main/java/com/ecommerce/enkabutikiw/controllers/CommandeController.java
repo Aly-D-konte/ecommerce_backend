@@ -3,6 +3,7 @@ package com.ecommerce.enkabutikiw.controllers;
 import com.ecommerce.enkabutikiw.Serviceimpl.UserServiceimpl;
 import com.ecommerce.enkabutikiw.models.Commande;
 import com.ecommerce.enkabutikiw.models.Produits;
+import com.ecommerce.enkabutikiw.models.Statut;
 import com.ecommerce.enkabutikiw.models.User;
 import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
 import com.ecommerce.enkabutikiw.repository.CommandeRepository;
@@ -17,6 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -126,6 +128,55 @@ public class CommandeController {
 
     public List<Commande> produitByUser(@PathVariable("id") User id){
         return commandeRepository.findByUser(id);
+
+    }
+
+    @PostMapping("/ENCOURS/{idCommande}")
+    public Commande Commandeencours(@PathVariable Long idCommande) throws IOException {
+            return  commandeService.commandeencours(idCommande);
+
+    }
+    @PostMapping("/ANNULER/{idCommande}")
+    public Commande Commandeannuler(@PathVariable Long idCommande) throws IOException {
+        return  commandeService.commandeannuler(idCommande);
+
+    }
+    @PostMapping("/LIVRER/{idCommande}")
+    public Commande Commandelivrer(@PathVariable Long idCommande) throws IOException {
+        return  commandeService.commandelivrer(idCommande);
+
+    }
+
+    @GetMapping("/regarder/{statut}")
+    public Object VoirStatut(@PathVariable String statut){
+        if (statut.equals("encours")){
+            return commandeService.voirStatut(Statut.ENCOURS);
+        }
+        else if (statut.equals("annuler")) {
+            return commandeService.voirStatut(Statut.ANNULER);
+        }else if (statut.equals("livrer")){
+            return commandeService.voirStatut(Statut.LIVRER);
+        } else {
+            return "ssss dddd";
+        }
+    }
+
+
+    @PostMapping("/ajouter/{panier_id}/{user_id}")
+    public  MessageResponse ajouter(@RequestBody Commande commande, @PathVariable("panier_id") Long panier_id, @PathVariable("user_id") User user_id){
+        if (commandeRepository.findByCode(commande.getCode())==null){
+            Commande commandes = new Commande();
+
+            commande.setCode(commande.getCode());
+            commande.setStatut(Statut.ENCOURS);
+            commande.setUser(user_id);
+            commande.setPanier(panierRepository.findById(panier_id).get());
+            return   commandeService.ajouteCommande(commande, panier_id);
+        }
+        else {
+            MessageResponse message = new MessageResponse("Cette reference existe déja");
+            return message;
+        }
 
     }
 }

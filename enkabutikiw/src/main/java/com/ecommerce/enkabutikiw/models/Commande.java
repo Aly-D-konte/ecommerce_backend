@@ -18,7 +18,7 @@ public class Commande {
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idCommande;
     private String code;
 
     private Date date;

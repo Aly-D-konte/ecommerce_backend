@@ -1,10 +1,12 @@
 package com.ecommerce.enkabutikiw.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -44,6 +46,15 @@ public class User {
   private String genre;
 
   private String image;
+
+
+//  @OneToOne(cascade = CascadeType.ALL)
+//  @JoinColumn(name="panier_id", referencedColumnName = "id")
+  //@JsonIgnore
+  @OneToOne( cascade = CascadeType.ALL)
+  @JoinColumn(name="panier_id", referencedColumnName = "id")
+  //@PrimaryKeyJoinColumn
+  private Panier panier;
 
 
 

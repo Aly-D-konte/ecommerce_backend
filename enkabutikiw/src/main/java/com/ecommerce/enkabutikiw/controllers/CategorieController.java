@@ -1,5 +1,6 @@
 package com.ecommerce.enkabutikiw.controllers;
 
+import com.ecommerce.enkabutikiw.img.ConfigImage;
 import com.ecommerce.enkabutikiw.img.Projetimage;
 import com.ecommerce.enkabutikiw.img.SaveImage;
 import com.ecommerce.enkabutikiw.models.Categorie;
@@ -32,18 +33,27 @@ public class CategorieController {
    // @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN')   ")
 
     public MessageResponse ajoutCategorie(@Param("nom") String nom,
-                                          @Param("image") String image,
-                                          @Param("file") MultipartFile file) throws IOException {
+                                          @Param("image") MultipartFile image
+                                         ) throws IOException {
         Categorie categorie = new Categorie();
-       // String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
+       // String nomfile = StringUtils.cleanPath(image.getOriginalFilename());
+        String nomfile = StringUtils.cleanPath(image.getOriginalFilename()) ;
+
         categorie.setNom(nom);
-        //categorie.setImage(nomfile);
+        categorie.setImage(nomfile);
+        categorie.setImageDas(nomfile);
 
         if (categorieRepository.findByNom(nom) == null){
+            String uploaDir = "C:\\Users\\sadjo\\OneDrive\\Bureau\\ODK\\flutter_enkabutikiw\\flutter_frontend\\assets\\categorie";
+
+           // String uploaDir = "C:\\Users\\sadjo\\OneDrive\\Bureau\\ODK\\flutter_enkabutikiw\\flutter_frontend\\assets\\categorie";
+            ConfigImage.saveimg(uploaDir, nomfile, image);
 
 //            String uploaDir = "C:\\Users\\adkonte\\Documents\\ecommerce_backend\\enkabutikiw\\src\\test\\Images";
 //           ConfigImage.saveimg(uploaDir, nomfile, file);
-            categorie.setImage(Projetimage.save(file,file.getOriginalFilename()));
+            categorie.setImageDas(Projetimage.save(image,image.getOriginalFilename()));
+
+            //categorie.setImage(Projetimage.save(image,image.getOriginalFilename()));
             return categorieService.ajoutCategorie(categorie);
 
         }else {

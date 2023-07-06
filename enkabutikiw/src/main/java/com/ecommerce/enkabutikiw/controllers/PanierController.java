@@ -1,5 +1,6 @@
 package com.ecommerce.enkabutikiw.controllers;
 
+import com.ecommerce.enkabutikiw.DTO.panier.PanierResponse;
 import com.ecommerce.enkabutikiw.models.Panier;
 import com.ecommerce.enkabutikiw.models.Produits;
 import com.ecommerce.enkabutikiw.models.User;
@@ -45,13 +46,47 @@ public class PanierController {
             Long Qte =  (panier.getQuantite());
            // panier.setUser(user);
             panier.setQuantite(panier.getQuantite());
-            panier.setUser(us);
+            //panier.setUser(us);
 
         panier.setTotalproduit((produit.getPrix()) * panier.getQuantite());
             panier.getProduits().add(produit);
      //   MessageResponse message = new MessageResponse("Impossible d'ajouté au panier");
 
             return  panierService.ajoutPanier(panier, produit);
+
+
+
+
+    }
+
+    @PostMapping("/ajouteraupanier/{produit}/{id}")
+    public MessageResponse ajouterAuPanier(@PathVariable("produit") Produits produit, @PathVariable Long id) {
+
+
+        User us = userRepository.findById(id).get();
+        Panier mon_panier = new Panier();
+
+        if (us.getPanier() == null) {
+            mon_panier.setQuantite(1L);
+            mon_panier.getProduits().add(produit);
+            mon_panier.setTotalproduit(produit.getPrix());
+            panierRepository.save(mon_panier);
+            us.setPanier(mon_panier);
+            userRepository.save(us);
+        } else {
+            mon_panier = us.getPanier();
+            mon_panier.setQuantite(mon_panier.getQuantite()+1);
+            mon_panier.getProduits().add(produit);
+            mon_panier.setTotalproduit(mon_panier.getTotalproduit() + produit.getPrix());
+            panierRepository.save(mon_panier);
+        }
+
+
+//        panier.setTotalproduit((produit.getPrix()) * panier.getQuantite());
+//        panier.getProduits().add(produit);
+        //   MessageResponse message = new MessageResponse("Impossible d'ajouté au panier");
+
+        return  panierService.ajoutPanier(mon_panier, produit);
 
 
 
@@ -97,8 +132,8 @@ public class PanierController {
     @GetMapping("/liste")
     //@PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('SUPER_ADMIN') ")
 
-    public List<Panier> list(){
-        return panierService.liste();
+    public List<PanierResponse> mapToPanierResponseList( List<Panier> panierList){
+        return panierService.mapToPanierList(panierList);
     }
 
 //    @GetMapping("/ListeP/{id}")

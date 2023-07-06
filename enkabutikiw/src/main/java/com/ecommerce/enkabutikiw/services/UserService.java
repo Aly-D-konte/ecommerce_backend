@@ -1,9 +1,7 @@
 package com.ecommerce.enkabutikiw.services;
 
+import com.ecommerce.enkabutikiw.DTO.user.UserResponse;
 import com.ecommerce.enkabutikiw.models.User;
-import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
-import com.ecommerce.enkabutikiw.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,9 +17,9 @@ public interface UserService {
     public void updateUserPassword(User user, String newPassword);
 
     User findByEmail(String userEmail);
-    MessageResponse modifier(User user, Long id);
+    UserResponse modifier(User user, Long id);
 
-    List<User> liste();
-
-    User getUserById(Long id);
+    List<UserResponse> mapToUserList(List<User> userList);
+    UserResponse mapToUser(User user);
+    UserResponse getUserById(Long id);
 }

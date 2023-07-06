@@ -1,5 +1,6 @@
 package com.ecommerce.enkabutikiw.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,7 @@ public class Panier {
     private Long Totalproduit;
     private Long quantite;
 
-    @OneToOne
+    @OneToOne(mappedBy = "panier")
     private User user;
 
     @ManyToMany(cascade = CascadeType.DETACH)

@@ -1,5 +1,6 @@
 package com.ecommerce.enkabutikiw.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,9 @@ public class Categorie {
     private Long id;
     private String nom;
     private String image;
+    private String imageDas;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "categorie")
     private List<Produits> Listproduits = new ArrayList<>();
 

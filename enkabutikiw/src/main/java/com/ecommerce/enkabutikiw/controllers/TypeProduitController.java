@@ -58,6 +58,8 @@ public class TypeProduitController {
         return typeProduitService.liste();
     }
 
+    //@GetMapping("")
+
 
 
     @PutMapping("/modifier/{id}")
