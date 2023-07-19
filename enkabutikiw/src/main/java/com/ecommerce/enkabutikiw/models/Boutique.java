@@ -1,10 +1,12 @@
-package com.prodevma.immodev.models;
+package com.ecommerce.enkabutikiw.models;
 
-import jakarta.persistence.*;
+import com.ecommerce.enkabutikiw.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import javax.persistence.*;
 
 
 @Entity
@@ -21,6 +23,7 @@ public class Boutique {
     private String description;
     private String adresse;
     private String image;
+    private String imageDas;
     private boolean etat = false;
     @ManyToOne
     private User user;

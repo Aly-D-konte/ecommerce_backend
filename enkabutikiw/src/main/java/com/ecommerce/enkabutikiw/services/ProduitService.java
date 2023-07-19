@@ -11,9 +11,13 @@ public interface ProduitService {
     MessageResponse ajoutProduit(Produits produit);
     MessageResponse supprimerProduit(Long id);
 
-    Produits findById(Long id);
+    ProduitResponse findById(Long id);
+
+    List<ProduitResponse> findAll();
 
     ProduitResponse ModifierProduit(Produits produit, Long id);
-    List<ProduitResponse> mapToProduitListe();
+
+    List<ProduitResponse> mapToProduitListe(List<Produits> produitsList);
+
     ProduitResponse mapToProduit(Produits produits);
 }

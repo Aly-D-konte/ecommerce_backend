@@ -139,7 +139,7 @@ public class BoutiqueController {
 
 
     @GetMapping("boutiqueByUser/{id}")
-    @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN') ")
+    //@PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('ADMIN') ")
 
     public List<Boutique> boutiqueByUser(@PathVariable("id") User id){
         return boutiqueRepository.findByUser(id);

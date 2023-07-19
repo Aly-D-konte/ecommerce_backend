@@ -1,7 +1,6 @@
 package com.ecommerce.enkabutikiw.DTO.user;
 
 import com.ecommerce.enkabutikiw.models.Panier;
-import com.ecommerce.enkabutikiw.models.Produits;
 import com.ecommerce.enkabutikiw.models.Role;
 import lombok.*;
 

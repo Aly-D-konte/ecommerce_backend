@@ -1,8 +1,6 @@
 package com.ecommerce.enkabutikiw.Serviceimpl;
 
-import com.ecommerce.enkabutikiw.DTO.boutique.BoutiqueResponse;
 import com.ecommerce.enkabutikiw.DTO.produit.ProduitResponse;
-import com.ecommerce.enkabutikiw.models.Boutique;
 import com.ecommerce.enkabutikiw.models.Produits;
 import com.ecommerce.enkabutikiw.payload.response.MessageResponse;
 import com.ecommerce.enkabutikiw.repository.BoutiqueRepository;
@@ -55,8 +53,15 @@ public class ProduitsServiceimpl implements ProduitService {
 
 
     @Override
-    public Produits findById(Long id) {
-        return produitsRepository.findById(id).orElse(null);
+    public ProduitResponse findById(Long id) {
+        Produits produits = produitsRepository.findById(id).orElse(null);
+        return this.mapToProduit(produits);
+    }
+
+    @Override
+    public List<ProduitResponse> findAll() {
+        List<Produits> produitsList = produitsRepository.findAll();
+        return this.mapToProduitListe(produitsList);
     }
 
     @Override
@@ -80,23 +85,13 @@ public class ProduitsServiceimpl implements ProduitService {
 
 
     @Override
-    public List<ProduitResponse> mapToProduitListe() {
-        return null;
-    }
-
-    public List<ProduitResponse> mapToProduitListe( List<Produits> produitsList) {
-
+    public List<ProduitResponse> mapToProduitListe(List<Produits> produitsList) {
         List<ProduitResponse> ProduitResponseList = new ArrayList<>();
         for (Produits produits: produitsList){
             ProduitResponseList.add(this.mapToProduit(produits));
         }
         return ProduitResponseList;
     }
-
-//    @Override
-//    public List<Produits> liste() {
-//        return produitsRepository.findAll();
-//    }
 
     @Override
     public ProduitResponse mapToProduit(Produits produits) {

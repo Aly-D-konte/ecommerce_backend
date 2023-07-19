@@ -97,13 +97,13 @@ public class ProduitController {
    // @PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('SUPER_ADMIN')    ")
 
     public List<ProduitResponse> list(){
-        return produitService.mapToProduitListe();
+        return produitService.findAll();
     }
 
     @GetMapping("/afficher/{id}")
     //@PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('SUPER_ADMIN') ")
 
-    public Produits getProductById(@PathVariable("id") Long id) {
+    public ProduitResponse getProductById(@PathVariable("id") Long id) {
         return produitService.findById(id);
     }
 
